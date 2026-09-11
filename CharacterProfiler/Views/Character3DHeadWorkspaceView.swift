@@ -40,9 +40,9 @@ struct Character3DHeadWorkspaceView: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text("3D Head Reconstruction")
-                        .font(.headline)
+                        .font(CharacterProfilerTypography.headline)
                     Text("Real rotatable geometry from your reference photographs")
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
                 }
 
@@ -57,14 +57,14 @@ struct Character3DHeadWorkspaceView: View {
             }
 
             Text("Build an actual USDZ model with RealityKit photogrammetry. A successful result rotates continuously in 3D instead of switching between generated angle pictures.")
-                .font(.subheadline)
+                .font(CharacterProfilerTypography.subheadline)
                 .foregroundStyle(.secondary)
 
             Label(
                 "Temporary preview: the reconstructed USDZ is not yet stored in this character or included in project backups.",
                 systemImage: "externaldrive.badge.exclamationmark"
             )
-            .font(.caption)
+            .font(CharacterProfilerTypography.caption)
             .foregroundStyle(.secondary)
             .padding(10)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,7 +72,7 @@ struct Character3DHeadWorkspaceView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text("Reconstruction readiness")
-                    .font(.subheadline.weight(.semibold))
+                    .font(CharacterProfilerTypography.subheadlineBold)
                 ReconstructionReadinessRow(
                     title: "Minimum source set",
                     detail: sourceImageData.count >= 3 ? "At least 3 photos available" : "Add \(3 - sourceImageData.count) more photo\(3 - sourceImageData.count == 1 ? "" : "s")",
@@ -95,7 +95,7 @@ struct Character3DHeadWorkspaceView: View {
                     ProgressView(value: progress)
                         .tint(CharacterProfilerTheme.violet)
                     Text(statusText)
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -107,15 +107,15 @@ struct Character3DHeadWorkspaceView: View {
 
             if sourceImageData.count < 3 {
                 Label("Add at least three clear photographs of the same person from different angles before reconstructing.", systemImage: "photo.stack")
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
             } else if !PhotogrammetrySession.isSupported {
                 Label("This device does not support RealityKit photogrammetry. Switch to 2D Appearance to continue using the visual tools.", systemImage: "exclamationmark.triangle")
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
             } else if sourceImageData.count < 8 {
                 Label("Three images can be attempted; additional overlapping face angles improve reconstruction quality.", systemImage: "info.circle")
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
             }
         }
@@ -290,7 +290,7 @@ private struct ReconstructionReadinessRow: View {
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
-                    .font(.caption.weight(.semibold))
+                    .font(CharacterProfilerTypography.captionBold)
                 Text(detail)
                     .font(.caption2)
                     .foregroundStyle(.secondary)

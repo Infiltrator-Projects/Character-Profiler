@@ -27,7 +27,7 @@ struct CharacterGuidePanel: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Label("Character Guide", systemImage: "sparkles")
-                    .font(.title3.bold())
+                    .font(CharacterProfilerTypography.title3)
                     .foregroundStyle(CharacterProfilerTheme.gold)
                 Spacer()
                 if !savedAnswers.isEmpty {
@@ -55,7 +55,7 @@ struct CharacterGuidePanel: View {
                     } label: {
                         VStack(alignment: .leading, spacing: 7) {
                             Label(suggestion.category.displayName, systemImage: suggestion.category.icon)
-                                .font(.caption.weight(.semibold))
+                                .font(CharacterProfilerTypography.captionBold)
                             Text(suggestion.question)
                                 .foregroundStyle(.primary)
                                 .multilineTextAlignment(.leading)
@@ -77,7 +77,7 @@ struct CharacterGuidePanel: View {
             if !savedAnswers.isEmpty {
                 Divider()
                 HStack {
-                    Text("Recently Answered").font(.headline)
+                    Text("Recently Answered").font(CharacterProfilerTypography.headline)
                     Spacer()
                     Button("View All") { showingSavedAnswers = true }
                 }
@@ -88,7 +88,7 @@ struct CharacterGuidePanel: View {
                         HStack(alignment: .top, spacing: 10) {
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(response.question)
-                                    .font(.subheadline.weight(.semibold))
+                                    .font(CharacterProfilerTypography.subheadlineBold)
                                     .foregroundStyle(.primary)
                                 Text(response.answer)
                                     .foregroundStyle(.secondary)
@@ -96,7 +96,7 @@ struct CharacterGuidePanel: View {
                             }
                             Spacer(minLength: 6)
                             Image(systemName: "pencil")
-                                .font(.caption.weight(.semibold))
+                                .font(CharacterProfilerTypography.captionBold)
                                 .foregroundStyle(.secondary)
                                 .accessibilityHidden(true)
                         }
@@ -212,9 +212,9 @@ private struct SavedGuideAnswersView: View {
                         Button { editingResponse = response } label: {
                             VStack(alignment: .leading, spacing: 5) {
                                 Label(response.category.displayName, systemImage: response.category.icon)
-                                    .font(.caption.weight(.semibold))
+                                    .font(CharacterProfilerTypography.captionBold)
                                     .foregroundStyle(.secondary)
-                                Text(response.question).font(.headline).foregroundStyle(.primary)
+                                Text(response.question).font(CharacterProfilerTypography.headline).foregroundStyle(.primary)
                                 Text(response.answer).foregroundStyle(.secondary)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -315,7 +315,7 @@ private struct SavedGuideAnswerEditor: View {
             Section("Question") {
                 Text(response.question)
                 Label(response.category.displayName, systemImage: response.category.icon)
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
             }
             Section("Answer") {

@@ -48,7 +48,7 @@ struct CharacterTimelinePanel: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Label("History", systemImage: "clock.arrow.circlepath")
-                    .font(.title3.bold())
+                    .font(CharacterProfilerTypography.title3)
                     .foregroundStyle(CharacterProfilerTheme.teal)
                 Spacer()
                 Button("Add Life Event", systemImage: "plus") { showingAdd = true }
@@ -62,7 +62,7 @@ struct CharacterTimelinePanel: View {
                 )
             } else {
                 Text("Events are shown in author-controlled chronological order. Use the event menu to move an entry earlier or later when the free-text age/date cannot be sorted automatically.")
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
 
                 let events = character.sortedLifeEvents
@@ -108,7 +108,7 @@ struct CharacterTimelinePanel: View {
                         .fill(CharacterProfilerTheme.teal.opacity(0.14))
                         .frame(width: 34, height: 34)
                     Image(systemName: event.kind.icon)
-                        .font(.caption.weight(.semibold))
+                        .font(CharacterProfilerTypography.captionBold)
                         .foregroundStyle(CharacterProfilerTheme.teal)
                 }
                 if index < total - 1 {
@@ -122,7 +122,7 @@ struct CharacterTimelinePanel: View {
             Button { editingEvent = event } label: {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(alignment: .firstTextBaseline) {
-                        Text(event.title).font(.headline).foregroundStyle(.primary)
+                        Text(event.title).font(CharacterProfilerTypography.headline).foregroundStyle(.primary)
                         Spacer()
                         Text("#\(index + 1)")
                             .font(.caption2.monospacedDigit())
@@ -132,14 +132,14 @@ struct CharacterTimelinePanel: View {
                         Text(event.kind.displayName)
                         if !event.whenText.isEmpty { Text("• \(event.whenText)") }
                     }
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
                     if !event.details.isEmpty {
                         Text(event.details).foregroundStyle(.primary).multilineTextAlignment(.leading)
                     }
                     if !event.impact.isEmpty {
                         Label(event.impact, systemImage: "arrow.triangle.branch")
-                            .font(.subheadline)
+                            .font(CharacterProfilerTypography.subheadline)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.leading)
                     }
@@ -263,7 +263,7 @@ private struct LifeEventEditorView: View {
                 Section {
                     TextField("How did it change them?", text: $impact, axis: .vertical).lineLimit(2...8)
                     Text("Impact can influence adaptive Character Guide questions later.")
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
                 } header: {
                     CharacterProfilerSectionHeader(

@@ -139,7 +139,7 @@ struct CharacterVisualWorkspaceView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             Label("2D Appearance Studio", systemImage: "photo.stack")
-                .font(.title3.bold())
+                .font(CharacterProfilerTypography.title3)
                 .foregroundStyle(CharacterProfilerTheme.violet)
             Text("Establish one canonical 2D look from the character record and references, then build eight image-based angle views from that accepted image.")
                 .foregroundStyle(.secondary)
@@ -150,7 +150,7 @@ struct CharacterVisualWorkspaceView: View {
                 } icon: {
                     Image(systemName: "sparkles.slash")
                 }
-                .font(.subheadline)
+                .font(CharacterProfilerTypography.subheadline)
                 .foregroundStyle(.secondary)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -229,7 +229,7 @@ struct CharacterVisualWorkspaceView: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("\(character.referenceImages.count) of 6 references")
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
                     Spacer()
                     if character.referenceImages.count < 6 {
@@ -245,7 +245,7 @@ struct CharacterVisualWorkspaceView: View {
 
                 if character.referenceImages.isEmpty {
                     Text("Add face, full-body, clothing, hair or other visual references. Tap a reference later to rename or reorder it.")
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                 } else {
                     ScrollView(.horizontal) {
@@ -294,7 +294,7 @@ struct CharacterVisualWorkspaceView: View {
             VStack(alignment: .leading, spacing: 12) {
                 if let data = character.generatedVisualData, let image = UIImage(data: data) {
                     Label("Canonical visual established", systemImage: "checkmark.seal.fill")
-                        .font(.subheadline.weight(.semibold))
+                        .font(CharacterProfilerTypography.subheadlineBold)
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -310,7 +310,7 @@ struct CharacterVisualWorkspaceView: View {
                     Button("Clear Visual Set", systemImage: "trash", role: .destructive) {
                         showingClearVisualSet = true
                     }
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                 } else {
                     ContentUnavailableView(
                         "No Canonical Visual Yet",
@@ -326,7 +326,7 @@ struct CharacterVisualWorkspaceView: View {
 
                     if !character.visualFrames.isEmpty {
                         Label("This character has turnaround frames but no canonical image. Create a canonical visual before replacing or filling missing angles.", systemImage: "exclamationmark.triangle")
-                            .font(.caption)
+                            .font(CharacterProfilerTypography.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -357,12 +357,12 @@ struct CharacterVisualWorkspaceView: View {
         return GroupBox("8-View 2D Turnaround") {
             VStack(alignment: .leading, spacing: 12) {
                 Text("This is an image-based inspection set, not a continuous 3D model. Switch to 3D Reconstruction for rotatable geometry.")
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
 
                 HStack {
                     Label("\(state.completedAngleCount) of 8 views", systemImage: state.isTurnaroundComplete ? "checkmark.circle.fill" : "circle.dotted")
-                        .font(.subheadline.weight(.semibold))
+                        .font(CharacterProfilerTypography.subheadlineBold)
                     Spacer()
                     Text("\(Int(state.turnaroundProgress * 100))%")
                         .font(.caption.monospacedDigit())
@@ -373,7 +373,7 @@ struct CharacterVisualWorkspaceView: View {
 
                 if !state.duplicateAngles.isEmpty {
                     Label("Duplicate stored frames detected for: \(state.duplicateAngles.map(\.displayName).joined(separator: ", ")). Delete or regenerate the duplicate views before relying on the turnaround.", systemImage: "exclamationmark.triangle")
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.orange)
                 }
 
@@ -393,10 +393,10 @@ struct CharacterVisualWorkspaceView: View {
                             .font(.system(size: 42))
                             .foregroundStyle(.secondary)
                         Text("\(viewerAngle.displayName) view is missing")
-                            .font(.headline)
+                            .font(CharacterProfilerTypography.headline)
                         if character.generatedVisualData == nil {
                             Text("Create the canonical visual first.")
-                                .font(.caption)
+                                .font(CharacterProfilerTypography.caption)
                                 .foregroundStyle(.secondary)
                         } else if supportsImagePlayground {
                             Button("Generate This View", systemImage: "sparkles") {
@@ -405,7 +405,7 @@ struct CharacterVisualWorkspaceView: View {
                             .buttonStyle(.borderedProminent)
                         } else {
                             Text("Image generation is unavailable on this device.")
-                                .font(.caption)
+                                .font(CharacterProfilerTypography.caption)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -424,7 +424,7 @@ struct CharacterVisualWorkspaceView: View {
                     }
                     Spacer()
                     Text("\(viewerAngle.displayName) • \(viewerAngle.degrees)° — drag or use arrows")
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                     Spacer()
@@ -443,7 +443,7 @@ struct CharacterVisualWorkspaceView: View {
 
                 if !state.missingAngles.isEmpty {
                     Text("Missing: " + state.missingAngles.map { "\($0.displayName) (\($0.degrees)°)" }.joined(separator: ", "))
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .foregroundStyle(.secondary)
 
                     Button("Generate Next Missing View", systemImage: "sparkles") {
@@ -452,14 +452,14 @@ struct CharacterVisualWorkspaceView: View {
                     .disabled(character.generatedVisualData == nil || !supportsImagePlayground)
                 } else {
                     Label("Complete eight-view turnaround", systemImage: "checkmark.seal.fill")
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                 }
 
                 if !character.visualFrames.isEmpty {
                     Button("Reset Turnaround", systemImage: "arrow.counterclockwise", role: .destructive) {
                         showingResetTurnaround = true
                     }
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

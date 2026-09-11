@@ -187,9 +187,9 @@ struct CharacterEditorView: View {
                 if draft.sections.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Label("No profile sections yet", systemImage: "square.stack.3d.up")
-                            .font(.headline)
+                            .font(CharacterProfilerTypography.headline)
                         Text("Add sections for appearance, personality, motivations, skills, background or anything specific to this character.")
-                            .font(.subheadline)
+                            .font(CharacterProfilerTypography.subheadline)
                             .foregroundStyle(.secondary)
                     }
                     .padding(.vertical, 4)
@@ -198,7 +198,7 @@ struct CharacterEditorView: View {
                         DisclosureGroup {
                             VStack(alignment: .leading, spacing: 12) {
                                 TextField("Section name", text: $section.title)
-                                    .font(.headline)
+                                    .font(CharacterProfilerTypography.headline)
 
                                 ForEach($section.fields) { $field in
                                     HStack(alignment: .top, spacing: 8) {
@@ -242,7 +242,7 @@ struct CharacterEditorView: View {
                                 Image(systemName: "rectangle.stack")
                                     .foregroundStyle(.tint)
                                 Text(section.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Untitled Section" : section.title)
-                                    .font(.headline)
+                                    .font(CharacterProfilerTypography.headline)
                                 Spacer()
                                 Text("\(section.fields.count)")
                                     .font(.caption.monospacedDigit())
@@ -346,9 +346,9 @@ struct CharacterEditorView: View {
     private var portraitControls: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Visual Identity")
-                .font(.headline)
+                .font(CharacterProfilerTypography.headline)
             Text("A clear portrait makes the story and relationship screens much easier to scan.")
-                .font(.caption)
+                .font(CharacterProfilerTypography.caption)
                 .foregroundStyle(.secondary)
             PhotosPicker(selection: $photoItem, matching: .images) {
                 Label(draft.profileImageData == nil ? "Choose Portrait" : "Change Portrait", systemImage: "photo")
@@ -357,7 +357,7 @@ struct CharacterEditorView: View {
                 Button("Remove Portrait", systemImage: "trash", role: .destructive) {
                     draft.profileImageData = nil
                 }
-                .font(.caption)
+                .font(CharacterProfilerTypography.caption)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

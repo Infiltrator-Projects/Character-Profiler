@@ -26,7 +26,7 @@ struct CharacterRelationshipsPanel: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Label("People", systemImage: "person.2")
-                    .font(.title3.bold())
+                    .font(CharacterProfilerTypography.title3)
                     .foregroundStyle(CharacterProfilerTheme.rose)
                 Spacer()
                 Button("Add Relationship", systemImage: "plus") { showingAdd = true }
@@ -44,13 +44,13 @@ struct CharacterRelationshipsPanel: View {
                         FamilyTreeView(root: character)
                     } label: {
                         HStack(spacing: 12) {
-                            Image(systemName: "point.3.connected.trianglepath.dotted").font(.title2)
+                            Image(systemName: "point.3.connected.trianglepath.dotted").font(CharacterProfilerTypography.title2)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Open Family Tree").font(.headline)
+                                Text("Open Family Tree").font(CharacterProfilerTypography.headline)
                                 let snapshot = FamilyGraphSnapshot(root: character)
                                 let connected = max(0, snapshot.characters.count - 1)
                                 Text("\(connected) connected family character\(connected == 1 ? "" : "s")")
-                                    .font(.caption)
+                                    .font(CharacterProfilerTypography.caption)
                                     .foregroundStyle(.secondary)
                                 if snapshot.hasGenerationConflicts {
                                     Text("Generation conflict detected")
@@ -60,7 +60,7 @@ struct CharacterRelationshipsPanel: View {
                             }
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .font(.caption.weight(.semibold))
+                                .font(CharacterProfilerTypography.captionBold)
                                 .foregroundStyle(.secondary)
                                 .accessibilityHidden(true)
                         }
@@ -71,12 +71,12 @@ struct CharacterRelationshipsPanel: View {
                     .buttonStyle(.plain)
                     .accessibilityHint("Opens the graphical connected family tree")
 
-                    Text("Family").font(.headline)
+                    Text("Family").font(CharacterProfilerTypography.headline)
                     ForEach(family) { relationship in relationshipRow(relationship) }
                 }
 
                 if !others.isEmpty {
-                    Text("Other Relationships").font(.headline).padding(.top, 4)
+                    Text("Other Relationships").font(CharacterProfilerTypography.headline).padding(.top, 4)
                     ForEach(others) { relationship in relationshipRow(relationship) }
                 }
             }
@@ -120,13 +120,13 @@ struct CharacterRelationshipsPanel: View {
                     HStack(spacing: 10) {
                         CharacterPortraitView(character: other, size: 42)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(other.name).font(.headline).foregroundStyle(.primary)
+                            Text(other.name).font(CharacterProfilerTypography.headline).foregroundStyle(.primary)
                             Text(relationship.kind(from: character).displayName)
-                                .font(.subheadline)
+                                .font(CharacterProfilerTypography.subheadline)
                                 .foregroundStyle(.secondary)
                             if !relationship.notes.isEmpty {
                                 Text(relationship.notes)
-                                    .font(.caption)
+                                    .font(CharacterProfilerTypography.caption)
                                     .foregroundStyle(.secondary)
                                     .lineLimit(2)
                             }
@@ -228,7 +228,7 @@ private struct RelationshipEditorView: View {
                     if let relationship, let other = relationship.relatedCharacter(to: character) {
                         LabeledContent("Character", value: other.displayName)
                         Text("The linked character stays fixed while editing. Change the relationship type or notes without deleting and rebuilding the graph edge.")
-                            .font(.caption)
+                            .font(CharacterProfilerTypography.caption)
                             .foregroundStyle(.secondary)
                     } else {
                         NavigationLink {
@@ -241,7 +241,7 @@ private struct RelationshipEditorView: View {
                         }
                         if candidates.count > 20 {
                             Text("The character picker is searchable for large casts.")
-                                .font(.caption)
+                                .font(CharacterProfilerTypography.caption)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -356,7 +356,7 @@ private struct RelationshipCharacterPicker: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(candidate.displayName).foregroundStyle(.primary)
                                 if !candidate.storyRole.isEmpty {
-                                    Text(candidate.storyRole).font(.caption).foregroundStyle(.secondary)
+                                    Text(candidate.storyRole).font(CharacterProfilerTypography.caption).foregroundStyle(.secondary)
                                 }
                             }
                             Spacer()
@@ -644,7 +644,7 @@ struct FamilyTreeView: View {
                         "Some family links imply conflicting generations. Edit the highlighted relationship structure before relying on row placement.",
                         systemImage: "exclamationmark.triangle.fill"
                     )
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.orange)
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -658,7 +658,7 @@ struct FamilyTreeView: View {
                                 Label("Partner", systemImage: "heart")
                                 Label("Sibling", systemImage: "person.2")
                             }
-                            .font(.caption)
+                            .font(CharacterProfilerTypography.caption)
                             .padding(.horizontal)
                             .padding(.vertical, 8)
                         }
@@ -683,7 +683,7 @@ struct FamilyTreeView: View {
                             }
                             .accessibilityLabel("Zoom in")
                         }
-                        .font(.caption)
+                        .font(CharacterProfilerTypography.caption)
                         .padding(.horizontal)
                         .padding(.bottom, 10)
 
@@ -849,7 +849,7 @@ private struct FamilyTreeNodeCard: View {
         HStack(spacing: 8) {
             CharacterPortraitView(character: character, size: 42)
             VStack(alignment: .leading, spacing: 3) {
-                Text(character.name).font(.subheadline.weight(.semibold)).lineLimit(2)
+                Text(character.name).font(CharacterProfilerTypography.subheadlineBold).lineLimit(2)
                 if !character.storyRole.isEmpty {
                     Text(character.storyRole).font(.caption2).foregroundStyle(.secondary).lineLimit(2)
                 }

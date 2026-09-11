@@ -81,9 +81,9 @@ struct ProjectListView: View {
                                 size: 58
                             )
                             Text("Start Your First Story")
-                                .font(.title3.bold())
+                                .font(CharacterProfilerTypography.title3)
                             Text("Create a story project, then build its cast, relationships, history and visual references in one place.")
-                                .font(.subheadline)
+                                .font(CharacterProfilerTypography.subheadline)
                                 .foregroundStyle(.secondary)
                                 .multilineTextAlignment(.center)
                             Button {
@@ -352,9 +352,9 @@ struct ProjectDetailView: View {
                             size: 56
                         )
                         Text("Build the Cast")
-                            .font(.title3.bold())
+                            .font(CharacterProfilerTypography.title3)
                         Text("Add the first character, then open their workspace to develop profile, Guide answers, relationships, history and visuals.")
-                            .font(.subheadline)
+                            .font(CharacterProfilerTypography.subheadline)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                         Button {
@@ -627,7 +627,7 @@ private struct StoryLibrarySummary: View {
                     Text(storyCount == 0
                          ? "A focused home for stories, characters and the worlds around them."
                          : "Every story, character and creative thread in one place.")
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.white.opacity(0.78))
                 }
 
@@ -654,12 +654,12 @@ private struct LibraryMetric: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: icon)
-                .font(.caption.weight(.semibold))
+                .font(CharacterProfilerTypography.captionBold)
                 .accessibilityHidden(true)
             Text("\(value)")
                 .font(.subheadline.monospacedDigit().weight(.bold))
             Text(label)
-                .font(.caption)
+                .font(CharacterProfilerTypography.caption)
                 .foregroundStyle(.white.opacity(0.72))
         }
         .padding(.horizontal, 11)
@@ -686,14 +686,14 @@ private struct StoryLibraryRow: View {
 
             VStack(alignment: .leading, spacing: 5) {
                 Text(project.title)
-                    .font(.headline)
+                    .font(CharacterProfilerTypography.headline)
                     .foregroundStyle(.primary)
                 Text(project.genreDisplayName)
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.secondary)
                 if !project.premise.isEmpty {
                     Text(project.premise)
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
                 }
@@ -737,14 +737,14 @@ private struct StoryHeroCard: View {
                         .tracking(0.7)
                         .foregroundStyle(CharacterProfilerTheme.gold)
                     Text(characterCount == 0 ? "Ready to build your cast" : "\(characterCount) character\(characterCount == 1 ? "" : "s") in this story")
-                        .font(.headline)
+                        .font(CharacterProfilerTypography.headline)
                         .foregroundStyle(.white)
                 }
             }
 
             if !project.premise.isEmpty {
                 Text(project.premise)
-                    .font(.body)
+                    .font(CharacterProfilerTypography.body)
                     .foregroundStyle(.white.opacity(0.80))
             }
 
@@ -806,7 +806,7 @@ private struct ProjectMetric: View {
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 Text(value)
-                    .font(.subheadline.weight(.semibold))
+                    .font(CharacterProfilerTypography.subheadlineBold)
                     .foregroundStyle(.white)
                 Text(label)
                     .font(.caption2)
@@ -829,7 +829,7 @@ private struct CharacterRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(character.displayName)
-                        .font(.headline)
+                        .font(CharacterProfilerTypography.headline)
                     Spacer()
                     Text("\(Int(character.completionScore * 100))%")
                         .font(.caption2.monospacedDigit().weight(.bold))
@@ -840,11 +840,11 @@ private struct CharacterRow: View {
                 }
                 if !character.storyRole.isEmpty {
                     Text(character.storyRole)
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                 } else if !character.summary.isEmpty {
                     Text(character.summary)
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }

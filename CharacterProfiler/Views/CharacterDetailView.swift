@@ -50,7 +50,7 @@ struct CharacterDetailView: View {
 
                 if !character.summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     Text(character.summary)
-                        .font(.body)
+                        .font(CharacterProfilerTypography.body)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
@@ -59,10 +59,10 @@ struct CharacterDetailView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     Label("Character Workspace", systemImage: "square.grid.2x2.fill")
-                        .font(.title3.bold())
+                        .font(CharacterProfilerTypography.title3)
                         .foregroundStyle(CharacterProfilerTheme.indigo)
                     Text("Choose the part of this character you want to develop.")
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                 }
 
@@ -248,7 +248,7 @@ private struct CharacterHeader: View {
     private var headerDetails: some View {
         VStack(alignment: .leading, spacing: 7) {
             Text(character.displayName)
-                .font(.title2.bold())
+                .font(CharacterProfilerTypography.title2)
                 .lineLimit(2)
             if !character.storyRole.isEmpty {
                 Text(character.storyRole)
@@ -259,7 +259,7 @@ private struct CharacterHeader: View {
                 HStack(spacing: 10) { identityDetails }
                 VStack(alignment: .leading, spacing: 4) { identityDetails }
             }
-            .font(.caption)
+            .font(CharacterProfilerTypography.caption)
             .foregroundStyle(.white.opacity(0.72))
             ProgressView(value: character.completionScore)
                 .tint(CharacterProfilerTheme.gold)
@@ -294,10 +294,10 @@ private struct CharacterWorkspaceCard: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.headline)
+                    .font(CharacterProfilerTypography.headline)
                     .foregroundStyle(.primary)
                 Text(subtitle)
-                    .font(.subheadline)
+                    .font(CharacterProfilerTypography.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
                     .lineLimit(3)
@@ -313,7 +313,7 @@ private struct CharacterWorkspaceCard: View {
                     .padding(.vertical, 4)
                     .background(accent.opacity(0.11), in: Capsule())
                 Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
+                    .font(CharacterProfilerTypography.captionBold)
                     .foregroundStyle(.tertiary)
             }
         }
@@ -411,7 +411,7 @@ private struct CharacterVisualWorkspaceScreen: View {
             VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Choose how you want to inspect this character's appearance.")
-                        .font(.subheadline)
+                        .font(CharacterProfilerTypography.subheadline)
                         .foregroundStyle(.secondary)
                     Picker("Visual mode", selection: $mode) {
                         ForEach(VisualStudioMode.allCases) { mode in
@@ -456,7 +456,7 @@ private struct CharacterProfilePanel: View {
         VStack(alignment: .leading, spacing: 16) {
             if !character.summary.isEmpty {
                 Text(character.summary)
-                    .font(.body)
+                    .font(CharacterProfilerTypography.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
@@ -470,7 +470,7 @@ private struct CharacterProfilePanel: View {
                 ForEach(populatedSections) { section in
                     VStack(alignment: .leading, spacing: 10) {
                         Text(section.title)
-                            .font(.headline)
+                            .font(CharacterProfilerTypography.headline)
                         ForEach(section.sortedFields) { field in
                             if !field.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                 VStack(alignment: .leading, spacing: 3) {

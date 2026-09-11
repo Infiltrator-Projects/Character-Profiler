@@ -4,6 +4,43 @@ import SwiftUI
 import SwiftData
 import UIKit
 
+enum CharacterProfilerTypography {
+    private static let uiRegularName = "MBCorpoSTitleWEB-Regular"
+    private static let uiBoldName = "MBCorpoSTitleWEB-Bold"
+    private static let displayName = "MBCorpoATitleCondWEB-Regular"
+
+    private static func customOrSystem(
+        _ name: String,
+        size: CGFloat,
+        relativeTo style: Font.TextStyle,
+        fallbackWeight: Font.Weight
+    ) -> Font {
+        if UIFont(name: name, size: size) != nil {
+            return .custom(name, size: size, relativeTo: style)
+        }
+        return .system(size: size, weight: fallbackWeight)
+    }
+
+    static func regular(_ size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+        customOrSystem(uiRegularName, size: size, relativeTo: style, fallbackWeight: .regular)
+    }
+
+    static func bold(_ size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+        customOrSystem(uiBoldName, size: size, relativeTo: style, fallbackWeight: .bold)
+    }
+
+    static func display(_ size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+        customOrSystem(displayName, size: size, relativeTo: style, fallbackWeight: .regular)
+    }
+
+    static let body = regular(17, relativeTo: .body)
+    static let headline = bold(17, relativeTo: .headline)
+    static let subheadline = regular(15, relativeTo: .subheadline)
+    static let subheadlineBold = bold(15, relativeTo: .subheadline)
+    static let caption = regular(12, relativeTo: .caption)
+    static let title3 = bold(20, relativeTo: .title3)
+}
+
 enum CharacterProfilerTheme {
     static let ink = Color(red: 0.16, green: 0.12, blue: 0.30)
     static let indigo = Color(red: 0.34, green: 0.28, blue: 0.78)
@@ -86,7 +123,7 @@ struct CharacterProfilerGroupBoxStyle: GroupBoxStyle {
     func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             configuration.label
-                .font(.headline)
+                .font(CharacterProfilerTypography.headline)
                 .foregroundStyle(.primary)
             configuration.content
         }
@@ -133,7 +170,7 @@ struct CharacterProfilerSectionHeader: View {
             Text(title)
                 .foregroundStyle(colorScheme == .light ? CharacterProfilerTheme.ink : accent)
         }
-        .font(.subheadline.weight(.semibold))
+        .font(CharacterProfilerTypography.subheadlineBold)
         .textCase(nil)
         .accessibilityElement(children: .combine)
     }
@@ -185,6 +222,7 @@ struct CharacterProfilerApp: App {
                     .modelContainer(modelContainer)
                     .tint(CharacterProfilerTheme.indigo)
                     .groupBoxStyle(CharacterProfilerGroupBoxStyle())
+                    .environment(\.font, CharacterProfilerTypography.body)
                     .environment(\.reportPersistenceFailure) { message in
                         persistenceFailureMessage = message
                     }
@@ -198,6 +236,7 @@ struct CharacterProfilerApp: App {
                     }
             case .failure(let error):
                 DataStoreUnavailableView(error: error, retry: containerLoader.retry)
+                    .environment(\.font, CharacterProfilerTypography.body)
             }
         }
     }
@@ -215,7 +254,7 @@ private struct DataStoreUnavailableView: View {
                 Text("Character Profiler could not open its local story database. The app will not erase or replace the store automatically.")
                 Text("You can retry opening the preserved library. If the problem continues, preserve the app's data before reinstalling so the story library can be recovered or inspected.")
                 Text(error.localizedDescription)
-                    .font(.caption)
+                    .font(CharacterProfilerTypography.caption)
                     .foregroundStyle(.secondary)
                     .textSelection(.enabled)
                 Button("Retry Opening Library", action: retry)

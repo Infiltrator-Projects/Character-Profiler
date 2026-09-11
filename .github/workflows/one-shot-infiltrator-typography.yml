@@ -1,0 +1,76 @@
+name: One-shot Character Profiler typography migration
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: "github.event.head_commit.message == 'Add one-shot Character Profiler typography migration'"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace system text styles with Infiltrator typography
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          app = Path('CharacterProfiler/App/CharacterProfilerApp.swift')
+          text = app.read_text(encoding='utf-8')
+          anchor = '    static let caption = regular(12, relativeTo: .caption)\n    static let title3 = bold(20, relativeTo: .title3)\n'
+          replacement = '    static let caption = regular(12, relativeTo: .caption)\n    static let captionBold = bold(12, relativeTo: .caption)\n    static let title3 = bold(20, relativeTo: .title3)\n    static let title2 = bold(22, relativeTo: .title2)\n'
+          if text.count(anchor) != 1:
+              raise SystemExit('CharacterProfilerTypography anchor changed; refusing migration')
+          app.write_text(text.replace(anchor, replacement, 1), encoding='utf-8')
+
+          replacements = {
+              '.font(.title3.bold())': '.font(CharacterProfilerTypography.title3)',
+              '.font(.title3)': '.font(CharacterProfilerTypography.title3)',
+              '.font(.title2.bold())': '.font(CharacterProfilerTypography.title2)',
+              '.font(.title2)': '.font(CharacterProfilerTypography.title2)',
+              '.font(.headline.bold())': '.font(CharacterProfilerTypography.headline)',
+              '.font(.headline)': '.font(CharacterProfilerTypography.headline)',
+              '.font(.subheadline.weight(.semibold))': '.font(CharacterProfilerTypography.subheadlineBold)',
+              '.font(.subheadline.bold())': '.font(CharacterProfilerTypography.subheadlineBold)',
+              '.font(.subheadline)': '.font(CharacterProfilerTypography.subheadline)',
+              '.font(.caption.weight(.semibold))': '.font(CharacterProfilerTypography.captionBold)',
+              '.font(.caption.bold())': '.font(CharacterProfilerTypography.captionBold)',
+              '.font(.caption)': '.font(CharacterProfilerTypography.caption)',
+              '.font(.body.bold())': '.font(CharacterProfilerTypography.bold(17, relativeTo: .body))',
+              '.font(.body)': '.font(CharacterProfilerTypography.body)'
+          }
+
+          changed = 0
+          for path in Path('CharacterProfiler').rglob('*.swift'):
+              source = path.read_text(encoding='utf-8')
+              updated = source
+              for old, new in replacements.items():
+                  updated = updated.replace(old, new)
+              if updated != source:
+                  path.write_text(updated, encoding='utf-8')
+                  changed += 1
+
+          if changed == 0:
+              raise SystemExit('No Character Profiler text styles were migrated')
+          PY
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          if git diff --quiet -- CharacterProfiler; then
+            echo 'Expected typography changes were not produced.' >&2
+            exit 1
+          fi
+          git config user.name 'The-First-Infiltrator'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add CharacterProfiler
+          git commit -m 'Apply MB Corpo typography across Character Profiler'
+          git push origin HEAD:main

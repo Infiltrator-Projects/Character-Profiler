@@ -2,6 +2,10 @@
 
 # Changelog
 
+## [1.1.4] - 2026-09-16
+
+- Publish the shared MB Corpo typography across the application and character workspaces.
+
 ## [1.1.3] - 2026-09-03
 
 - Rebuilt and requalified the current application entirely on GitHub-hosted CI for the coordinated project release refresh.

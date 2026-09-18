@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.1.5] - 2026-09-18
+
+- Renamed the user-facing application from **Character Profiler** to **Character Manager**.
+- Preserved the existing bundle, scheme, source-module and archive-format identifiers for compatibility.
+- Updated the iPhone display name, release metadata and primary documentation without changing story or character data.
+
+
 ## [1.1.4] - 2026-09-16
 
 - Publish the shared MB Corpo typography across the application and character workspaces.

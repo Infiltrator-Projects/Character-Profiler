@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
-# Character Profiler
+# Character Manager
 
 [![iOS Build](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml/badge.svg)](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml)
 
-Character Profiler is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
+Character Manager is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
 
-**Current version:** 1.1.4 build 19  
+**Current version:** 1.1.5 build 20  
 **Platform:** iOS 17 or later  
 **Licence:** GPL-3.0-or-later
 
@@ -18,7 +18,7 @@ The application is organised around three levels:
 - **Story workspace** — story summary, development metrics and cast-building workflow.
 - **Character workspace** — Profile, Character Guide, People & Relationships, History and Visual Studio.
 
-Character Profiler remains local-first. Version 1.1.2 keeps the existing SwiftData model and **Character Profiler archive format v1**.
+Character Manager remains local-first. Version 1.1.2 keeps the existing SwiftData model and **Character Profiler archive format v1**.
 
 Visual Studio has two deliberately separate paths: Image Playground produces authored 2D reference imagery, while RealityKit photogrammetry can reconstruct three or more photographs into a rotatable USDZ model on supported hardware. The 3D path is for appearance inspection, not scene generation, animation, rigging or filmmaking.
 
@@ -75,7 +75,7 @@ The simulator test and optimized simulator/device compile gates belong to the tr
 
 ## Limits
 
-Character Profiler is a character-development tool. It does not silently turn suggestions into canon and does not attempt to write the novel for the author. Visual Studio is an appearance workspace, not a general-purpose image/video production system.
+Character Manager is a character-development tool. It does not silently turn suggestions into canon and does not attempt to write the novel for the author. Visual Studio is an appearance workspace, not a general-purpose image/video production system.
 
 If Image Playground or RealityKit reconstruction is unavailable, the local profile, Guide, relationship, history and backup workflows remain usable.
 
@@ -83,4 +83,4 @@ If Image Playground or RealityKit reconstruction is unavailable, the local profi
 
 Copyright © 2026 Shannon Smith and Olivia Jezewski.
 
-Character Profiler is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.
+Character Manager is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.

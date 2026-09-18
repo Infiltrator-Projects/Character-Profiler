@@ -74,7 +74,7 @@ jobs:
           notes="$RUNNER_TEMP/release-notes.md"
           git log -1 --format='%B' "$head_commit" | sed '1d;/^[[:space:]]*$/d' > "$notes"
           if [[ ! -s "$notes" ]]; then
-            printf 'Character Profiler %s.\n' "$version" > "$notes"
+            printf 'Character Manager %s.\n' "$version" > "$notes"
           fi
 
           {
@@ -84,7 +84,7 @@ jobs:
             echo "RELEASE_PRERELEASE=$prerelease"
             echo "RELEASE_COMMIT=$head_commit"
             echo 'RELEASE_TITLE<<CHARACTER_PROFILER_EOF'
-            printf 'Character Profiler %s\n' "$version"
+            printf 'Character Manager %s\n' "$version"
             echo 'CHARACTER_PROFILER_EOF'
           } >> "$GITHUB_ENV"
 
@@ -217,7 +217,7 @@ jobs:
             "CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa.sha256" | sort)
           published_assets=$(jq -r '.assets[].name' "$release_json" | sort)
           if [[ "$published_assets" != "$expected_assets" ]]; then
-            echo "Published Character Profiler asset set is not exact." >&2
+            echo "Published Character Manager asset set is not exact." >&2
             printf 'Expected:\n%s\nPublished:\n%s\n' "$expected_assets" "$published_assets" >&2
             exit 1
           fi

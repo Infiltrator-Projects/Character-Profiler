@@ -118,7 +118,7 @@ struct CharacterProfilerCardSurface: View {
     }
 }
 
-/// Gives standard SwiftUI GroupBox content the same card language as the rest of Character Profiler.
+/// Gives standard SwiftUI GroupBox content the same card language as the rest of Character Manager.
 /// Visual Studio is currently the only feature that uses GroupBox, so applying this style at the app
 /// root keeps those sections consistent without duplicating card markup around each subsection.
 struct CharacterProfilerGroupBoxStyle: GroupBoxStyle {
@@ -253,7 +253,7 @@ private struct DataStoreUnavailableView: View {
             Label("Story Library Unavailable", systemImage: "externaldrive.badge.exclamationmark")
         } description: {
             VStack(spacing: 10) {
-                Text("Character Profiler could not open its local story database. The app will not erase or replace the store automatically.")
+                Text("Character Manager could not open its local story database. The app will not erase or replace the store automatically.")
                 Text("You can retry opening the preserved library. If the problem continues, preserve the app's data before reinstalling so the story library can be recovered or inspected.")
                 Text(error.localizedDescription)
                     .font(CharacterProfilerTypography.caption)

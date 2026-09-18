@@ -1,21 +1,21 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
-# Character Profiler Product Specification
+# Character Manager Product Specification
 
 **Document status:** Source of truth for product intent  
-**Product:** Character Profiler  
+**Product:** Character Manager  
 **Target platform:** iPhone / iOS  
 **Primary audience:** Authors and writers building fictional characters and casts
 
 ## 1. Product definition
 
-Character Profiler is a native iPhone story-bible and character-development application for authors. It helps an author define, remember and deepen fictional characters while keeping those characters connected to the story they belong to.
+Character Manager is a native iPhone story-bible and character-development application for authors. It helps an author define, remember and deepen fictional characters while keeping those characters connected to the story they belong to.
 
 The application combines structured character records with flexible author-defined information, linked relationships, formative history, genre-aware development prompts and a focused visual reference workspace.
 
 The product is centred on a simple question: **who is this character, how are they connected to the rest of the cast, what shaped them, and what do they look like?**
 
-Character Profiler is not intended to write the novel for the author. Its AI-assisted features should help the author think, organise and visualise while leaving character facts and creative decisions under the author's control.
+Character Manager is not intended to write the novel for the author. Its AI-assisted features should help the author think, organise and visualise while leaving character facts and creative decisions under the author's control.
 
 ## 2. Core product principles
 
@@ -175,7 +175,7 @@ A future decision to preserve/export reconstructed USDZ models as first-class pr
 
 ## 9. Explicit non-goals
 
-Character Profiler must not drift into the following without a deliberate change to this specification:
+Character Manager must not drift into the following without a deliberate change to this specification:
 
 - generating scenes from the novel;
 - animating characters;
@@ -198,7 +198,7 @@ The graphical family tree is derived at runtime from existing relationship recor
 
 ### 10.1 Portable project backup
 
-Character Profiler must provide a project-scoped portable backup format that is separate from the internal SwiftData store.
+Character Manager must provide a project-scoped portable backup format that is separate from the internal SwiftData store.
 
 The backup format must:
 
@@ -228,7 +228,7 @@ Backup export and restore are explicit author actions through system document in
 
 The core application currently targets iOS 17 or later.
 
-Visual AI and photogrammetry are availability-gated because support depends on Apple software and compatible hardware. A device that cannot use those visual capabilities must still be able to use the rest of Character Profiler, including project backup/restore.
+Visual AI and photogrammetry are availability-gated because support depends on Apple software and compatible hardware. A device that cannot use those visual capabilities must still be able to use the rest of Character Manager, including project backup/restore.
 
 Persistence-schema evolution and portable-archive evolution are separate compatibility concerns. Both require deliberate migration/version handling when their structures change.
 

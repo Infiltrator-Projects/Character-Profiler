@@ -91,6 +91,6 @@ If Image Playground or RealityKit reconstruction is unavailable, the local profi
 
 ## Licence
 
-Copyright © 2000-2026 Shannon Smith and Olivia Jezewski.
+Copyright © 2000-2026 Shannon Smith; © 2026 Olivia Jezewski.
 
 Character Manager is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.

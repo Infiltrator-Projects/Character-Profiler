@@ -10,6 +10,14 @@ Character Manager is a native iPhone story-bible and character-development app f
 **Platform:** iOS 17 or later  
 **Licence:** GPL-3.0-or-later
 
+## Engineering ethos
+
+What happens when a story bible is built around the author's work rather than around a service account, cloud database or AI dependency? Character Manager treats characters, relationships, history and story structure as durable user-owned data first.
+
+Platform frameworks are used where they provide a strong native contract, but the product's meaning is not outsourced to them. The application owns its archive format, reconstruction rules, validation limits and core workflows so stories remain portable and recoverable even as platform storage or optional visual tools evolve. AI and photogrammetry can extend the workspace; neither is required for the core application to remain useful.
+
+The project favours the strongest justified design rather than novelty for its own sake. Proven interaction and data-modelling ideas remain when they serve authors well, while replacements must improve durability, usability, portability or clarity.
+
 ## Capabilities
 
 The application is organised around three levels:

@@ -6,7 +6,7 @@ Character Profiler is intentionally focused: it is an author-facing character-de
 
 ## Before changing code
 
-- Read `docs/PRODUCT_SPEC.md`, `ARCHITECTURE.md` and `docs/FEATURE_STATUS.md`.
+- Read `docs/PRODUCT_SPEC.md`, `docs/ARCHITECTURE.md` and `docs/FEATURE_STATUS.md`.
 - Keep application-specific SwiftUI, SwiftData, archive and character-domain semantics in this repository.
 - Do not add a shared-library dependency unless it replaces real duplicated portable behaviour and reduces overall complexity.
 - Treat the SwiftData schema and the portable archive format as separate compatibility contracts. A schema change does not automatically justify an archive-format change, and vice versa.

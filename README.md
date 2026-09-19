@@ -77,7 +77,7 @@ The simulator test and optimized simulator/device compile gates belong to the tr
 - `docs/FEATURE_STATUS.md` — current implementation and validation status.
 - `docs/ROADMAP.md` — completed milestones and future candidates.
 - `docs/RELEASE_CHECKLIST.md` — stable-release and physical-device validation gates.
-- `ARCHITECTURE.md` — model, graph, archive, migration and subsystem design.
+- `docs/ARCHITECTURE.md` — model, graph, archive, migration and subsystem design.
 - `CHANGELOG.md` — release history.
 - `SECURITY.md` — vulnerability reporting and supported-version policy.
 

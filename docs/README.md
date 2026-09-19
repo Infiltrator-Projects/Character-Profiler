@@ -1,31 +1,25 @@
 # Documentation
 
-This directory is the canonical documentation entry point for Character Manager. The Infiltrator project family uses the same baseline document roles in every repository so readers can move between projects without relearning the structure.
+This directory is the canonical documentation entry point for Character Manager.
 
 ## Canonical baseline
 
-- [Architecture](ARCHITECTURE.md) — ownership, layers, dependencies and system boundaries.
-- [Design](DESIGN.md) — first-principles goals, non-goals, trade-offs and failure philosophy.
-- [Roadmap](ROADMAP.md) — current foundation, near-term priorities and longer-term direction.
-- [Validation](VALIDATION.md) — automated, manual and environment-specific evidence boundaries.
-- [Project README](../README.md) — product overview, capabilities, build/use entry point and engineering ethos.
-- [Changelog](../CHANGELOG.md) — user-visible and contract-relevant change history.
-- [Contributing](../CONTRIBUTING.md) — development, ownership and verification rules.
-- [Security](../SECURITY.md) — vulnerability scope, reporting and response policy.
-
-## Documentation authority
-
-The baseline files have distinct responsibilities and should not compete as alternate sources of truth. Architecture describes where behaviour belongs; Design explains why; Roadmap describes direction; Validation records what evidence is required. Code and tests remain authoritative for executable behaviour, while immutable tags/releases identify historical source.
-
-Specialist documents may go deeper into one subsystem, protocol, platform, research area or historical investigation. They should link back to the canonical baseline when a reader needs the wider project context.
+- [Architecture](ARCHITECTURE.md) — persistent model, subsystem boundaries, archive contract and release architecture.
+- [Design](DESIGN.md) — first-principles product/design position and failure philosophy.
+- [Decisions](DECISIONS.md) — durable architectural choices and consequences.
+- [Roadmap](ROADMAP.md) — implementation direction.
+- [Validation](VALIDATION.md) — automated, device and manual evidence boundaries.
+- [Project README](../README.md) — product overview and build/release entry point.
+- [Changelog](../CHANGELOG.md) — user-visible change history.
+- [Contributing](../CONTRIBUTING.md) — development rules.
+- [Security](../SECURITY.md) — vulnerability reporting and supported-source policy.
 
 ## Specialist documentation
 
-- ARCHITECTURE.md — specialist or historical detail retained alongside the canonical baseline.
-- docs/PRODUCT_SPEC.md — specialist or historical detail retained alongside the canonical baseline.
-- docs/FEATURE_STATUS.md — specialist or historical detail retained alongside the canonical baseline.
-- docs/RELEASE_CHECKLIST.md — specialist or historical detail retained alongside the canonical baseline.
+- [Product specification](PRODUCT_SPEC.md) — authoritative product intent and boundaries.
+- [Feature status](FEATURE_STATUS.md) — current implementation status distinct from future direction.
+- [Release checklist](RELEASE_CHECKLIST.md) — release-specific operational checks.
 
-## Maintenance rule
+## Authority
 
-When a change moves an ownership boundary, support boundary, validation claim or major design decision, update the corresponding canonical document in the same change. Avoid copying the same status statement into several files; link to the authoritative document instead.
+Architecture owns technical structure and persistence contracts. Product Specification owns product intent. Feature Status states what is presently implemented. Roadmap states direction. Validation states evidence boundaries. These roles should remain separate rather than duplicated.

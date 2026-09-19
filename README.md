@@ -2,7 +2,7 @@
 
 # Character Manager
 
-**Project copyright:** © 2000–2026 Shannon Smith
+**Project copyright:** © 2000-2026 Shannon Smith
 
 [![iOS Build](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml/badge.svg)](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml)
 
@@ -91,6 +91,6 @@ If Image Playground or RealityKit reconstruction is unavailable, the local profi
 
 ## Licence
 
-Copyright © 2026 Shannon Smith and Olivia Jezewski.
+Copyright © 2000-2026 Shannon Smith and Olivia Jezewski.
 
 Character Manager is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.

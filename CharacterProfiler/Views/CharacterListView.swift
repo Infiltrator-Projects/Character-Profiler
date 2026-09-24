@@ -623,7 +623,7 @@ private struct StoryLibrarySummary: View {
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Story Library")
-                        .font(.title.bold())
+                        .font(CharacterProfilerTypography.displayTitle)
                     Text(storyCount == 0
                          ? "A focused home for stories, characters and the worlds around them."
                          : "Every story, character and creative thread in one place.")

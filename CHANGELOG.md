@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.8] - 2026-09-24
+
+- Use the existing publisher display face for the Story Library hero title, matching the character dossier hierarchy without changing native SwiftUI navigation.
+- Preserve Dynamic Type, SwiftData models, archive format, card geometry and application dependencies.
+
 ## [1.1.7] - 2026-09-24
 
 - Tighten ordinary card corners from 18 pt to 12 pt so the iPhone interface shares more of the publisher's card geometry while retaining 24 pt prominent hero cards.

@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.11] - 2026-09-24
+
+- Match tappable Guide, History and Relationships card hit-shapes to the existing 12 pt ordinary card radius.
+- Preserve native SwiftUI presentation, Dynamic Type, data models, archive format and application dependencies.
+
+
 ## [1.1.10] - 2026-09-24
 
 - Align the shared Character Manager icon tile from 46 pt to the publisher-wide 44 pt page-icon scale.

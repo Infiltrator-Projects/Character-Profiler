@@ -8,7 +8,7 @@
 
 Character Manager is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
 
-**Current version:** 1.1.10 build 25  
+**Current version:** 1.1.11 build 26  
 **Platform:** iOS 17 or later  
 **Licence:** GPL-3.0-or-later
 

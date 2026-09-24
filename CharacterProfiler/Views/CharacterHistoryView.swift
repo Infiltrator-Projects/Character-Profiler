@@ -147,7 +147,7 @@ struct CharacterTimelinePanel: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background { CharacterProfilerCardSurface(accent: CharacterProfilerTheme.teal) }
-                .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
             .buttonStyle(.plain)
             .accessibilityLabel(eventAccessibilityLabel(event, position: index + 1))

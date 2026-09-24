@@ -66,7 +66,7 @@ struct CharacterRelationshipsPanel: View {
                         }
                         .padding()
                         .background { CharacterProfilerCardSurface(accent: CharacterProfilerTheme.rose) }
-                        .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
                     .buttonStyle(.plain)
                     .accessibilityHint("Opens the graphical connected family tree")

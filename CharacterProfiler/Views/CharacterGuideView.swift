@@ -67,7 +67,7 @@ struct CharacterGuidePanel: View {
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background { CharacterProfilerCardSurface(accent: CharacterProfilerTheme.gold) }
-                        .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
                     .buttonStyle(.plain)
                     .accessibilityHint(suggestion.reason)

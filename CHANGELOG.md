@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.17] - 2026-09-25
+
+- Align the character dossier hero with the existing 18 pt prominent-card radius instead of its private 24 pt corner.
+- Preserve native SwiftUI presentation, Dynamic Type, SwiftData models, archive format and application dependencies.
+
+
 ## [1.1.16] - 2026-09-25
 
 - Align shared SwiftUI GroupBox internal spacing with the publisher-wide 10 pt control-spacing rhythm.

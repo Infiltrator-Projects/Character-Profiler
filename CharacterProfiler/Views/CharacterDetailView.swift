@@ -235,9 +235,9 @@ private struct CharacterHeader: View {
         }
         .foregroundStyle(.white)
         .padding(20)
-        .background(CharacterProfilerTheme.heroGradient, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .background(CharacterProfilerTheme.heroGradient, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .stroke(.white.opacity(0.13), lineWidth: 1)
         }
         .shadow(color: CharacterProfilerTheme.ink.opacity(0.24), radius: 18, y: 10)

@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.7] - 2026-09-24
+
+- Tighten ordinary card corners from 18 pt to 12 pt so the iPhone interface shares more of the publisher's card geometry while retaining 24 pt prominent hero cards.
+- Preserve native SwiftUI navigation, Dynamic Type, SwiftData models, archive format and application dependencies.
+
 ## [1.1.6] - 2026-09-24
 
 - Use the existing MB Corpo display face for the primary character-name heading so the native iPhone app shares the publisher's title hierarchy without changing SwiftUI navigation or card geometry.

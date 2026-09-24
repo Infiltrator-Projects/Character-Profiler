@@ -92,10 +92,10 @@ struct CharacterProfilerCardSurface: View {
     var prominent = false
 
     var body: some View {
-        RoundedRectangle(cornerRadius: prominent ? 24 : 18, style: .continuous)
+        RoundedRectangle(cornerRadius: prominent ? 24 : 12, style: .continuous)
             .fill(.thinMaterial)
             .overlay {
-                RoundedRectangle(cornerRadius: prominent ? 24 : 18, style: .continuous)
+                RoundedRectangle(cornerRadius: prominent ? 24 : 12, style: .continuous)
                     .fill(
                         LinearGradient(
                             colors: [accent.opacity(prominent ? 0.18 : 0.10), Color.clear],
@@ -105,7 +105,7 @@ struct CharacterProfilerCardSurface: View {
                     )
             }
             .overlay {
-                RoundedRectangle(cornerRadius: prominent ? 24 : 18, style: .continuous)
+                RoundedRectangle(cornerRadius: prominent ? 24 : 12, style: .continuous)
                     .stroke(
                         LinearGradient(
                             colors: [accent.opacity(0.42), Color.white.opacity(0.10)],

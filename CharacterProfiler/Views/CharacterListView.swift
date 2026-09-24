@@ -606,7 +606,7 @@ private struct StoryLibrarySummary: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .fill(CharacterProfilerTheme.heroGradient)
 
             Image(systemName: "book.pages.fill")

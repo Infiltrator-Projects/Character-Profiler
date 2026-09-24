@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.15] - 2026-09-25
+
+- Tighten shared prominent card corners from 24 pt to the publisher-wide 18 pt panel radius while retaining the native SwiftUI material treatment.
+- Preserve Dynamic Type, SwiftData models, archive format, navigation and application dependencies.
+
 ## [1.1.14] - 2026-09-25
 
 - Align ordinary character-list card interior padding with the publisher-wide 12 pt compact card rhythm.

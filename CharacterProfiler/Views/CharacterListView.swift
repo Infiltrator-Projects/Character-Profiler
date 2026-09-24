@@ -852,7 +852,7 @@ private struct CharacterRow: View {
                     .tint(CharacterProfilerTheme.violet)
             }
         }
-        .padding(13)
+        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background { CharacterProfilerCardSurface(accent: CharacterProfilerTheme.violet) }
         .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))

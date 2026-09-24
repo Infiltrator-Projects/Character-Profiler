@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.14] - 2026-09-25
+
+- Align ordinary character-list card interior padding with the publisher-wide 12 pt compact card rhythm.
+- Preserve native SwiftUI presentation, Dynamic Type, SwiftData models, archive format and application dependencies.
+
+
 ## [1.1.13] - 2026-09-25
 
 - Align the shared SwiftUI GroupBox card interior with the publisher-wide 18 pt card-padding rhythm.

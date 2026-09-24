@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.13] - 2026-09-25
+
+- Align the shared SwiftUI GroupBox card interior with the publisher-wide 18 pt card-padding rhythm.
+- Preserve native iPhone presentation, Dynamic Type, data models, archive format and application dependencies.
+
 ## [1.1.12] - 2026-09-24
 
 - Align the shared 44 pt icon tile with the publisher-wide 10 pt control-corner radius.

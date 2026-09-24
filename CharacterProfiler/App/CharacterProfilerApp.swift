@@ -130,7 +130,7 @@ struct CharacterProfilerGroupBoxStyle: GroupBoxStyle {
                 .foregroundStyle(.primary)
             configuration.content
         }
-        .padding(16)
+        .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background { CharacterProfilerCardSurface(accent: CharacterProfilerTheme.violet) }
     }

@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.6] - 2026-09-24
+
+- Use the existing MB Corpo display face for the primary character-name heading so the native iPhone app shares the publisher's title hierarchy without changing SwiftUI navigation or card geometry.
+- Preserve the SwiftData model, archive format, Dynamic Type behaviour and application dependencies.
+
+
 ## [1.1.5] - 2026-09-18
 
 - Renamed the user-facing application from **Character Profiler** to **Character Manager**.

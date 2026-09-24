@@ -248,7 +248,7 @@ private struct CharacterHeader: View {
     private var headerDetails: some View {
         VStack(alignment: .leading, spacing: 7) {
             Text(character.displayName)
-                .font(CharacterProfilerTypography.title2)
+                .font(CharacterProfilerTypography.displayTitle)
                 .lineLimit(2)
             if !character.storyRole.isEmpty {
                 Text(character.storyRole)

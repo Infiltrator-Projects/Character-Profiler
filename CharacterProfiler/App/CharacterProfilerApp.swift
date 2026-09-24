@@ -41,6 +41,7 @@ enum CharacterProfilerTypography {
     static let captionBold = bold(12, relativeTo: .caption)
     static let title3 = bold(20, relativeTo: .title3)
     static let title2 = bold(22, relativeTo: .title2)
+    static let displayTitle = display(22, relativeTo: .title2)
 }
 
 enum CharacterProfilerTheme {

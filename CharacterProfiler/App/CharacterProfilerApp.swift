@@ -124,7 +124,7 @@ struct CharacterProfilerCardSurface: View {
 /// root keeps those sections consistent without duplicating card markup around each subsection.
 struct CharacterProfilerGroupBoxStyle: GroupBoxStyle {
     func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 10) {
             configuration.label
                 .font(CharacterProfilerTypography.headline)
                 .foregroundStyle(.primary)

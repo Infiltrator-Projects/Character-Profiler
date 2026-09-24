@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.16] - 2026-09-25
+
+- Align shared SwiftUI GroupBox internal spacing with the publisher-wide 10 pt control-spacing rhythm.
+- Preserve native iPhone presentation, Dynamic Type, SwiftData models, archive format and application dependencies.
+
 ## [1.1.15] - 2026-09-25
 
 - Tighten shared prominent card corners from 24 pt to the publisher-wide 18 pt panel radius while retaining the native SwiftUI material treatment.

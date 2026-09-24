@@ -139,7 +139,7 @@ struct CharacterProfilerGroupBoxStyle: GroupBoxStyle {
 struct CharacterProfilerIconTile: View {
     let systemImage: String
     let accent: Color
-    var size: CGFloat = 46
+    var size: CGFloat = 44
 
     var body: some View {
         Image(systemName: systemImage)

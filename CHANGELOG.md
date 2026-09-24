@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.10] - 2026-09-24
+
+- Align the shared Character Manager icon tile from 46 pt to the publisher-wide 44 pt page-icon scale.
+- Preserve native SwiftUI layout behaviour, Dynamic Type, SwiftData models, archive format, navigation and application dependencies.
+
 ## [1.1.9] - 2026-09-24
 
 - Bring the existing publisher display title to 28 pt while retaining SwiftUI Dynamic Type scaling and the native iPhone layout.

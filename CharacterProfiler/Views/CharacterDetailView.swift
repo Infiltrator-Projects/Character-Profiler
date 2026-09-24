@@ -290,7 +290,7 @@ private struct CharacterWorkspaceCard: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            CharacterProfilerIconTile(systemImage: systemImage, accent: accent, size: 46)
+            CharacterProfilerIconTile(systemImage: systemImage, accent: accent, size: 44)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)

@@ -35,7 +35,7 @@ struct Character3DHeadWorkspaceView: View {
                 CharacterProfilerIconTile(
                     systemImage: "cube.transparent",
                     accent: CharacterProfilerTheme.violet,
-                    size: 46
+                    size: 44
                 )
 
                 VStack(alignment: .leading, spacing: 3) {

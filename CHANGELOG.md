@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.12] - 2026-09-24
+
+- Align the shared 44 pt icon tile with the publisher-wide 10 pt control-corner radius.
+- Preserve native SwiftUI presentation, Dynamic Type, data models, archive format and application dependencies.
+
+
 ## [1.1.11] - 2026-09-24
 
 - Match tappable Guide, History and Relationships card hit-shapes to the existing 12 pt ordinary card radius.

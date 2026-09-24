@@ -152,7 +152,7 @@ struct CharacterProfilerIconTile: View {
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                in: RoundedRectangle(cornerRadius: size * 0.29, style: .continuous)
+                in: RoundedRectangle(cornerRadius: min(10, size / 2), style: .continuous)
             )
             .shadow(color: accent.opacity(0.28), radius: 7, y: 4)
             .accessibilityHidden(true)

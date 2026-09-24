@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.9] - 2026-09-24
+
+- Bring the existing publisher display title to 28 pt while retaining SwiftUI Dynamic Type scaling and the native iPhone layout.
+- Preserve SwiftData models, archive format, card geometry, navigation and application dependencies.
+
+
 ## [1.1.8] - 2026-09-24
 
 - Use the existing publisher display face for the Story Library hero title, matching the character dossier hierarchy without changing native SwiftUI navigation.

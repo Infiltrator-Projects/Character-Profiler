@@ -156,7 +156,7 @@ struct CharacterDetailView: View {
             }
             .padding(.horizontal)
             .padding(.top, 8)
-            .padding(.bottom, 28)
+            .padding(.bottom, 24)
         }
         .background { CharacterProfilerBackdrop() }
         .navigationTitle(character.name)

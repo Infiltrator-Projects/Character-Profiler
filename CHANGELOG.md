@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [1.1.19] - 2026-09-25
+
+- Align the character workspace bottom breathing room with the publisher-wide 24 pt content rhythm.
+- Preserve native SwiftUI presentation, Dynamic Type, SwiftData models, archive format and application dependencies.
+
 ## [1.1.18] - 2026-09-25
 
 - Align the Story Library hero with the publisher-wide 18 pt panel radius instead of its private 24 pt corner.

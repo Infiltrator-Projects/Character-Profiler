@@ -62,7 +62,7 @@
 
 ## [1.1.10] - 2026-09-24
 
-- Align the shared Character Manager icon tile from 46 pt to the publisher-wide 44 pt page-icon scale.
+- Align the shared Character Profiler icon tile from 46 pt to the publisher-wide 44 pt page-icon scale.
 - Preserve native SwiftUI layout behaviour, Dynamic Type, SwiftData models, archive format, navigation and application dependencies.
 
 ## [1.1.9] - 2026-09-24
@@ -89,7 +89,7 @@
 
 ## [1.1.5] - 2026-09-18
 
-- Renamed the user-facing application from **Character Profiler** to **Character Manager**.
+- Renamed the user-facing application from **Character Profiler** to **Character Profiler**.
 - Preserved the existing bundle, scheme, source-module and archive-format identifiers for compatibility.
 - Updated the iPhone display name, release metadata and primary documentation without changing story or character data.
 

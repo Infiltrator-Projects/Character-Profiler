@@ -1,225 +1,103 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 name: Publish release
-
 on:
   workflow_run:
     workflows: ["iOS Build"]
     types: [completed]
-
 permissions:
   contents: read
-
+  actions: read
 concurrency:
   group: character-profiler-release-${{ github.repository }}
   cancel-in-progress: false
-
 jobs:
   publish:
     if: >-
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.head_branch == 'main' &&
-      startsWith(github.event.workflow_run.head_commit.message, 'Release ')
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     permissions:
       contents: write
-    runs-on: macos-15
+      actions: read
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Checkout exact tested main commit
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
-
-      - name: Resolve release from Release commit
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-
-          git fetch origin main --tags
-          head_commit="$(git rev-parse HEAD)"
-          main_commit="$(git rev-parse origin/main)"
-          if [[ "$head_commit" != "$EXPECTED_SHA" || "$main_commit" != "$EXPECTED_SHA" ]]; then
-            echo "Release source $head_commit is not exact current main $main_commit." >&2
-            exit 1
-          fi
-
-          subject="$(git log -1 --format=%s "$head_commit")"
-          if [[ ! "$subject" =~ ^Release[[:space:]]+([0-9]+\.[0-9]+\.[0-9]+([-+][0-9A-Za-z.-]+)?)(:|$) ]]; then
-            echo "Release commit subject must begin with Release <version>." >&2
-            exit 1
-          fi
-          version="${BASH_REMATCH[1]}"
-          tag="v${version}"
-          base_version="$(printf '%s\n' "$version" | sed -E 's/[-+].*$//')"
-          prerelease=false
-          if [[ "$version" == *-* ]]; then
-            prerelease=true
-          fi
-
-          if git rev-parse -q --verify "refs/tags/${tag}" >/dev/null; then
-            echo "Release tag $tag already exists; published releases are immutable." >&2
-            exit 1
-          fi
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists; published releases are immutable." >&2
-            exit 1
-          fi
-
-          notes="$RUNNER_TEMP/release-notes.md"
-          git log -1 --format='%B' "$head_commit" | sed '1d;/^[[:space:]]*$/d' > "$notes"
-          if [[ ! -s "$notes" ]]; then
-            printf 'Character Manager %s.\n' "$version" > "$notes"
-          fi
-
-          {
-            echo "RELEASE_TAG=$tag"
-            echo "RELEASE_VERSION=$version"
-            echo "RELEASE_BASE_VERSION=$base_version"
-            echo "RELEASE_PRERELEASE=$prerelease"
-            echo "RELEASE_COMMIT=$head_commit"
-            echo 'RELEASE_TITLE<<CHARACTER_PROFILER_EOF'
-            printf 'Character Manager %s\n' "$version"
-            echo 'CHARACTER_PROFILER_EOF'
-          } >> "$GITHUB_ENV"
-
-      - name: Verify pinned Xcode and release version
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -d "$DEVELOPER_DIR"
-          xcode_version="$(xcodebuild -version)"
-          printf '%s\n' "$xcode_version"
-          grep -q '^Xcode 16\.4$' <<<"$xcode_version"
-
-          project_version="$(xcodebuild -project CharacterProfiler.xcodeproj -scheme CharacterProfiler -configuration Release -showBuildSettings | awk '/MARKETING_VERSION =/ {print $3; exit}')"
-          if [[ "$project_version" != "$RELEASE_BASE_VERSION" ]]; then
-            echo "Release base version $RELEASE_BASE_VERSION does not match MARKETING_VERSION $project_version." >&2
-            exit 1
-          fi
-
-          project_build="$(xcodebuild -project CharacterProfiler.xcodeproj -scheme CharacterProfiler -configuration Release -showBuildSettings | awk '/CURRENT_PROJECT_VERSION =/ {print $3; exit}')"
-          if ! [[ "$project_build" =~ ^[1-9][0-9]*$ ]]; then
-            echo "CURRENT_PROJECT_VERSION must be a positive integer, found $project_build." >&2
-            exit 1
-          fi
-          echo "RELEASE_BUILD=$project_build" >> "$GITHUB_ENV"
-
-      - name: Validate application resources
-        shell: bash
-        run: |
-          set -euo pipefail
-          icon='CharacterProfiler/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'
-          manifest='CharacterProfiler/Assets.xcassets/AppIcon.appiconset/Contents.json'
-          test -s "$icon"
-          test -s "$manifest"
-          width="$(sips -g pixelWidth "$icon" | awk '/pixelWidth/ {print $2}')"
-          height="$(sips -g pixelHeight "$icon" | awk '/pixelHeight/ {print $2}')"
-          alpha="$(sips -g hasAlpha "$icon" | awk '/hasAlpha/ {print $2}')"
-          [[ "$width" == '1024' && "$height" == '1024' ]]
-          [[ "$alpha" == 'no' ]]
-
-      # The triggering iOS Build workflow has already tested this exact main SHA.
-      # Do not run a second simulator test here: publication consumes that green
-      # result, then independently produces the optimized device release payload.
-      - name: Build optimized iPhoneOS Release
-        run: >-
-          xcodebuild
-          -project CharacterProfiler.xcodeproj
-          -scheme CharacterProfiler
-          -configuration Release
-          -sdk iphoneos
-          -destination "generic/platform=iOS"
-          -derivedDataPath "$RUNNER_TEMP/CharacterProfilerReleaseDerivedData"
-          MARKETING_VERSION="$RELEASE_BASE_VERSION"
-          CURRENT_PROJECT_VERSION="$RELEASE_BUILD"
-          CODE_SIGNING_ALLOWED=NO
-          SWIFT_STRICT_CONCURRENCY=complete
-          build
-
-      - name: Package unsigned IPA
-        shell: bash
-        run: |
-          set -euo pipefail
-          app="$RUNNER_TEMP/CharacterProfilerReleaseDerivedData/Build/Products/Release-iphoneos/CharacterProfiler.app"
-          test -d "$app"
-
-          package="$RUNNER_TEMP/CharacterProfiler-release-package"
-          rm -rf "$package"
-          mkdir -p "$package/Payload" "$GITHUB_WORKSPACE/release-assets"
-          ditto "$app" "$package/Payload/CharacterProfiler.app"
-          (
-            cd "$package"
-            /usr/bin/zip -qry "$GITHUB_WORKSPACE/release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa" Payload
-          )
-
-          test -s "$GITHUB_WORKSPACE/release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa"
-          shasum -a 256 "$GITHUB_WORKSPACE/release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa" > "$GITHUB_WORKSPACE/release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa.sha256"
-          cat "$GITHUB_WORKSPACE/release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa.sha256"
-
-      - name: Retain release IPA artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
-          name: CharacterProfiler-release-${{ github.event.workflow_run.head_sha }}
-          path: |
-            release-assets/*.ipa
-            release-assets/*.sha256
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Publish immutable GitHub release
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: CharacterProfiler-IPA-${{ github.event.workflow_run.head_sha }}
+          path: qualified
+      - name: Verify and promote the exact qualified IPA
         shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git fetch origin main --tags
-          test "$(git rev-parse HEAD)" = "$RELEASE_COMMIT"
-          test "$(git rev-parse origin/main)" = "$RELEASE_COMMIT"
-
-          if git rev-parse -q --verify "refs/tags/${RELEASE_TAG}" >/dev/null; then
-            echo "Release tag $RELEASE_TAG already exists; published releases are immutable." >&2
-            exit 1
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          test "$(git rev-parse origin/main)" = "$EXPECTED_SHA" || exit 0
+          test "$(cat qualified/SOURCE_COMMIT)" = "$EXPECTED_SHA"
+          (cd qualified && sha256sum -c SHA256SUMS.txt)
+          python3 - <<'PY'
+          import pathlib, plistlib, re, zipfile
+          root = pathlib.Path("qualified")
+          values = {}
+          for line in pathlib.Path("ProjectVersion.xcconfig").read_text().splitlines():
+              if "=" in line and not line.lstrip().startswith("//"):
+                  key, value = line.split("=", 1)
+                  values[key.strip()] = value.strip()
+          version = (root / "RELEASE_VERSION").read_text().strip()
+          build = (root / "BUILD_NUMBER").read_text().strip()
+          assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version)
+          assert re.fullmatch(r"[1-9][0-9]*", build)
+          assert version == values["MARKETING_VERSION"]
+          assert build == values["CURRENT_PROJECT_VERSION"]
+          with zipfile.ZipFile(root / ("CharacterProfiler-" + version + "-unsigned.ipa")) as archive:
+              info = plistlib.loads(archive.read("Payload/CharacterProfiler.app/Info.plist"))
+              assert info["CFBundleShortVersionString"] == version
+              assert str(info["CFBundleVersion"]) == build
+              assert archive.getinfo("Payload/CharacterProfiler.app/" + info["CFBundleExecutable"]).file_size > 0
+          PY
+          version=$(cat qualified/RELEASE_VERSION)
+          tag="v$version"
+          ipa="CharacterProfiler-$version-unsigned.ipa"
+          mkdir release
+          cp "qualified/$ipa" "qualified/$ipa.sha256" release/
+          if git rev-parse -q --verify "refs/tags/$tag^{commit}" >/dev/null; then
+            if [[ "$(git rev-parse "$tag^{commit}")" != "$EXPECTED_SHA" ]]; then
+              gh release view "$tag" --json isDraft --jq .isDraft | grep -qx false
+              echo "$tag already identifies an immutable release."
+              exit 0
+            fi
           fi
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            echo "Release $RELEASE_TAG already exists; published releases are immutable." >&2
-            exit 1
+          if ! gh release view "$tag" --json isDraft,targetCommitish > "$RUNNER_TEMP/release-state"; then
+            gh release create "$tag" --target "$EXPECTED_SHA" --draft \
+              --title "Character Manager $version" --generate-notes
+            gh release view "$tag" --json isDraft,targetCommitish > "$RUNNER_TEMP/release-state"
           fi
-
-          git tag "$RELEASE_TAG" "$RELEASE_COMMIT"
-          git push origin "$RELEASE_TAG"
-
-          args=(
-            "$RELEASE_TAG"
-            "release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa"
-            "release-assets/CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa.sha256"
-            --verify-tag
-            --target "$RELEASE_COMMIT"
-            --title "$RELEASE_TITLE"
-            --notes-file "$RUNNER_TEMP/release-notes.md"
-          )
-          if [[ "$RELEASE_PRERELEASE" == 'true' ]]; then
-            args+=(--prerelease)
+          test "$(jq -r .targetCommitish "$RUNNER_TEMP/release-state")" = "$EXPECTED_SHA"
+          draft=$(jq -r .isDraft "$RUNNER_TEMP/release-state")
+          # Draft repair is separate from immutable public release verification.
+          if [[ "$draft" == true ]]; then
+            gh release upload "$tag" release/* --clobber
           fi
-          gh release create "${args[@]}"
-
-          release_json="$RUNNER_TEMP/final-release.json"
-          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > "$release_json"
-          jq -e --arg tag "$RELEASE_TAG" --argjson prerelease "$RELEASE_PRERELEASE" '.tag_name == $tag and .draft == false and .prerelease == $prerelease' "$release_json" >/dev/null
-
-          expected_assets=$(printf '%s\n%s\n' \
-            "CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa" \
-            "CharacterProfiler-${RELEASE_VERSION}-unsigned.ipa.sha256" | sort)
-          published_assets=$(jq -r '.assets[].name' "$release_json" | sort)
-          if [[ "$published_assets" != "$expected_assets" ]]; then
-            echo "Published Character Manager asset set is not exact." >&2
-            printf 'Expected:\n%s\nPublished:\n%s\n' "$expected_assets" "$published_assets" >&2
-            exit 1
+          verify_remote() {
+            local destination
+            destination=$(mktemp -d)
+            gh release download "$tag" --dir "$destination"
+            diff -qr release "$destination"
+            rm -rf "$destination"
+          }
+          verify_remote
+          if [[ "$draft" == true ]]; then
+            gh release edit "$tag" --draft=false --latest
           fi
-
-          jq -r '.html_url' "$release_json"
+          verify_remote
+          git fetch origin "refs/tags/$tag:refs/tags/$tag"
+          test "$(git rev-parse "$tag^{commit}")" = "$EXPECTED_SHA"

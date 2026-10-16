@@ -2,6 +2,14 @@
 
 # Changelog
 
+## [1.1.20] - 2026-10-16
+
+- Give Xcode Debug and Release one marketing/build identity configuration.
+- Test the optimized simulator build and qualify the compiled icon in the single IPA producer.
+- Publish exact sealed CI artifacts without a second device compilation or commit-wording controls.
+- Remove stale current-version claims and separate architecture contracts from release history.
+
+
 ## [1.1.19] - 2026-09-25
 
 - Align the character workspace bottom breathing room with the publisher-wide 24 pt content rhythm.

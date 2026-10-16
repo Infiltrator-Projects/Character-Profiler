@@ -16,8 +16,8 @@ This checklist records the stable-line release gates without duplicating impleme
 - [x] Third-party GitHub Actions are pinned to immutable commit SHAs.
 - [x] CI dynamically discovers or provisions an available iPhone simulator.
 - [x] Green CI packages the unsigned device application as an IPA and emits SHA-256.
-- [x] Publication accepts only a successful push-triggered `iOS Build` for exact current `main` whose subject begins `Release <version>`.
-- [x] Publication validates Xcode marketing/build metadata and independently rebuilds the optimized unsigned device payload on that same tested SHA.
+- [x] Publication accepts only the successful exact-current-main iOS Build artifact for an unpublished version from ProjectVersion.xcconfig.
+- [x] Publication validates IPA metadata against ProjectVersion.xcconfig and promotes the exact qualifying bytes without rebuilding.
 - [x] Publication does not falsely claim to rerun simulator tests; those belong to the triggering `iOS Build` proof.
 - [x] Existing version tags/releases are hard failures and are never moved, edited, deleted or replaced.
 - [x] Published asset set is exactly the versioned unsigned IPA plus checksum.

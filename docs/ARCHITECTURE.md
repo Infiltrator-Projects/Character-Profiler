@@ -26,20 +26,9 @@ The application stops at the character boundary. It is not a scene generator, an
 
 ## Persistent model
 
-```text
-StoryProject
-└── CharacterProfile[]
-    ├── ProfileSection[]
-    │   └── ProfileField[]
-    ├── LifeEvent[]
-    ├── PromptResponse[]
-    ├── outgoing/incoming CharacterRelationship[]
-    ├── CharacterReferenceImage[]
-    ├── generatedVisualData
-    └── CharacterVisualFrame[]
-```
+A StoryProject owns CharacterProfile records. Each character owns flexible ProfileSection/ProfileField data, life events, prompt responses, reference images, a canonical generated visual and ordered visual frames. CharacterRelationship records are shared graph edges; incoming/outgoing collections are views of those edges rather than duplicate relationship databases.
 
-Versions 0.8 through 1.1.1 add no SwiftData entity or persistent field. The 1.1.1 app continues to use the model proven by the 0.8/1.0 line. RealityKit reconstruction therefore produces a temporary USDZ result rather than adding another persistent entity or field.
+The current model retains its existing entities and fields. RealityKit reconstruction produces a temporary USDZ result; it does not add persistent model state.
 
 ## Persistence transaction rule
 
@@ -182,27 +171,10 @@ Confirmations are not an undo system; portable project backup remains the durabl
 
 The core deployment target remains iOS 17. Image Playground and photogrammetry functionality are separately availability-gated.
 
-For current `main`, the push-triggered `iOS Build` proves these gates on the exact candidate SHA:
+ProjectVersion.xcconfig owns marketing/build identity. The project-level Xcode configurations inherit that file; individual targets do not maintain copied release numbers.
 
-1. complete simulator unit/UI tests;
-2. optimized simulator Release compilation;
-3. optimized generic `iphoneos` Release compilation with signing disabled; and
-4. application-resource/AppIcon validation with strict Swift concurrency diagnostics enabled for test/build work.
+For current main, iOS Build runs the complete optimized simulator unit/UI suite, builds the unsigned device app once, validates the compiled icon, and packages/seals that exact payload. Publication consumes the successful run's artifact, validates source and IPA metadata and compares complete remote bytes before and after draft promotion. Commit subjects do not control release intent, and publication contains no Xcode build. Public tags/assets are immutable; only drafts may be repaired.
 
-Release publication is separately hardened. Only a successful `iOS Build` caused by a push to exact current `main` can reach the publisher, and the commit subject must begin `Release <version>`. The publisher derives and validates release metadata against the Xcode project, independently rebuilds the optimized unsigned device payload on that already-tested SHA, then creates a new immutable tag and GitHub Release containing the unsigned IPA and checksum. It does not claim to rerun simulator tests during publication. Existing tags/releases are hard failures; they are never edited, moved, deleted or replaced. A version suffix such as `-rc.1` is published as a prerelease.
-
-Migration/compatibility history:
-
-- 0.4: family tree derived from existing relationships; no persistent change.
-- 0.5: Guide scoring/reasons derived from existing records; no persistent change.
-- 0.6: portable archive format v1 added separately from SwiftData schema.
-- 0.7: visual hardening reused existing visual records/order metadata.
-- 0.8: author-workflow hardening edited/ordered existing records and tested legacy migration; no persistent change.
-- 1.0.0: startup/data/archive/release hardening; no persistent change and archive remains v1.
-- 1.0.1: audit hardening, transactional rollback, profile ID preservation, workflow completion and release verification; no persistent change and archive remains v1.
-- 1.0.2: explicit story/character deletion workflow and device-icon correction; no persistent change and archive remains v1.
-- 1.0.3: deterministic app icon plus compiled-icon integrity verification; no persistent change and archive remains v1.
-- 1.1.0: Story Library, story workspace, character dashboard and editor-flow refinement plus temporary RealityKit 3D reconstruction; no persistent change and archive remains v1.
-- 1.1.1: interface-flow/usability refinement, unsaved-change protection and clearer 2D/3D workspace separation; no persistent change and archive remains v1.
+Schema/archive compatibility history belongs to [Changelog](../CHANGELOG.md). The current model and archive ownership contracts above remain authoritative.
 
 Any future schema change capable of invalidating stored records requires deliberate migration design and regression coverage before release. Archive-format evolution requires an independent version/upgrade decision.

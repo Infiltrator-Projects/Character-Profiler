@@ -1,0 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Product release identity shared by Debug, Release and qualification.
+MARKETING_VERSION = 1.1.20
+CURRENT_PROJECT_VERSION = 34

@@ -8,13 +8,14 @@
 
 Character Manager is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
 
-**Current version:** 1.1.17 build 31  
+**Release identity:** [ProjectVersion.xcconfig](ProjectVersion.xcconfig)
+
 **Platform:** iOS 17 or later  
 **Licence:** GPL-3.0-or-later
 
 ## Engineering ethos
 
-What happens when a story bible is built from first principles around the author's work rather than around a service account, cloud database or AI dependency? Character Manager treats characters, relationships, history and story structure as durable user-owned data first.
+Character Manager treats characters, relationships, history and story structure as durable user-owned data first.
 
 Platform frameworks are used where they provide a strong native contract, but the product's meaning is not outsourced to them. The application owns its archive format, reconstruction rules, validation limits and core workflows so stories remain portable and recoverable even as platform storage or optional visual tools evolve. AI and photogrammetry can extend the workspace; neither is required for the core application to remain useful.
 
@@ -28,7 +29,7 @@ The application is organised around three levels:
 - **Story workspace** — story summary, development metrics and cast-building workflow.
 - **Character workspace** — Profile, Character Guide, People & Relationships, History and Visual Studio.
 
-Character Manager remains local-first. Version 1.1.2 keeps the existing SwiftData model and **Character Profiler archive format v1**.
+Character Manager remains local-first. SwiftData storage and Character Profiler archive format v1 retain separate compatibility contracts.
 
 Visual Studio has two deliberately separate paths: Image Playground produces authored 2D reference imagery, while RealityKit photogrammetry can reconstruct three or more photographs into a rotatable USDZ model on supported hardware. The 3D path is for appearance inspection, not scene generation, animation, rigging or filmmaking.
 
@@ -48,7 +49,7 @@ The app contains no advertising or analytics SDKs. Photos are selected through t
 
 Open `CharacterProfiler.xcodeproj`, select the `CharacterProfiler` scheme and build for an iPhone simulator or connected iPhone. A physical-device build requires an Apple Development team under Signing & Capabilities; no personal Team ID is committed to the repository.
 
-GitHub Actions uses pinned Xcode 16.4 on `macos-15`, prepares an iPhone simulator dynamically, runs the complete test suite with strict Swift concurrency diagnostics, builds an optimized simulator Release and separately compiles an unsigned optimized iPhoneOS Release.
+GitHub Actions uses pinned Xcode 16.4 on `macos-15`, prepares an iPhone simulator dynamically, runs the complete unit/UI suite on an optimized simulator build with strict Swift concurrency diagnostics, then compiles the unsigned optimized iPhoneOS build once.
 
 Hosted CI validates the compiled application icon against the canonical source image. Physical-device Image Playground output quality and the quality of a particular photogrammetry reconstruction still require real-device testing.
 
@@ -67,13 +68,16 @@ The IPA is intentionally unsigned. AltStore/AltServer, Sideloadly or another com
 
 This repository uses `main` as its working branch. Development changes are made directly on `main`; the normal project workflow does not depend on PR, feature or release branches.
 
-Every push to `main` runs the iOS build/test workflow. Ordinary commits do not publish. A commit is release-eligible only when its subject begins `Release <version>` and the complete `iOS Build` workflow succeeds.
+Every push to `main` runs the complete iOS qualification workflow. An unpublished version in ProjectVersion.xcconfig is release intent across corrective commits; commit subjects have no control-plane meaning.
 
-The publisher checks out that exact tested commit, verifies it is still current `main`, validates project/release metadata and independently builds the optimized unsigned iPhoneOS release payload on the same SHA. It then creates a new immutable version tag and GitHub Release containing the unsigned IPA plus checksum. A version containing a prerelease suffix such as `-rc.1` is published as a prerelease automatically. Existing version tags, releases and release assets are never moved, patched, deleted or replaced in place.
+The publisher consumes the successful run's exact sealed IPA and validates source identity, application version/build metadata and complete remote bytes before and after draft promotion. It performs no compilation. Drafts may be repaired; public tags and assets remain immutable.
 
-The simulator test and optimized simulator/device compile gates belong to the triggering `iOS Build` run. Publication consumes that successful exact-SHA result rather than pretending to rerun tests it does not rerun.
+Simulator tests, device compilation, source/compiled icon validation and IPA sealing belong to the single iOS Build workflow. Publication promotes those exact qualified bytes.
 
 ## Documentation
+
+- [Philosophy](PHILOSOPHY.md) — governing engineering standard.
+- [Validation](docs/VALIDATION.md) — canonical automated and environment evidence.
 
 - `docs/PRODUCT_SPEC.md` — product intent and boundaries.
 - `docs/FEATURE_STATUS.md` — current implementation and validation status.

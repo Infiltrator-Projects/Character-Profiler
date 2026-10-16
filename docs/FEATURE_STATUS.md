@@ -97,6 +97,6 @@ For current `main`, `iOS Build` provides the release-eligibility proof:
 4. application-resource/AppIcon validation; and
 5. strict Swift concurrency diagnostics.
 
-A release publisher runs only after a successful push-triggered `iOS Build` on a `Release <version>` commit. It verifies that SHA is still exact current `main`, validates version/build metadata, rebuilds the optimized device payload on that SHA and creates a new immutable tag/release. It does **not** claim to rerun simulator tests during publication.
+The release publisher consumes only the sealed IPA from a successful push-triggered iOS Build for exact current main. It verifies version/build identity and complete remote bytes before and after draft promotion. Publication performs no compilation.
 
 Physical-device Image Playground output quality and RealityKit reconstruction quality remain explicitly outside hosted-CI proof.

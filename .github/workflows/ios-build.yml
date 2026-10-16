@@ -10,31 +10,29 @@ concurrency:
   group: ios-build-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: macos-15
+    timeout-minutes: 45
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
 
-      - name: Enforce main-only automatic immutable publishing
+      - name: Verify publication ownership
         shell: bash
         run: |
           set -euo pipefail
           release=.github/workflows/publish-release.yml
-          grep -Fq '  workflow_run:' "$release"
-          grep -Fq 'workflows: ["iOS Build"]' "$release"
-          grep -Fq "startsWith(github.event.workflow_run.head_commit.message, 'Release ')" "$release"
-          grep -Fq "github.event.workflow_run.head_branch == 'main'" "$release"
-          grep -Fq 'published releases are immutable' "$release"
-          if grep -Eq '^  workflow_dispatch:|^  pull_request:|^  issue_comment:|^  schedule:' "$release"; then
-            echo 'Character Manager publication must be automatic from tested main only.' >&2
-            exit 1
-          fi
-          if grep -Eq '(-X|--request)[[:space:]]+(PATCH|DELETE)|releases/assets/.+DELETE|--clobber|gh release edit' "$release"; then
-            echo 'Release mutation or asset replacement is forbidden.' >&2
+          grep -Fq 'workflow_run:' "$release"
+          grep -Fq 'run-id: ${{ github.event.workflow_run.id }}' "$release"
+          grep -Fq 'actions/download-artifact@' "$release"
+          if grep -Eq 'head_commit.message|xcodebuild|DEVELOPER_DIR' "$release"; then
+            echo "Publication must consume the qualifying IPA without a second build or commit-prose controls." >&2
             exit 1
           fi
 
@@ -75,17 +73,17 @@ jobs:
         run: |
           set -euo pipefail
 
-          xcrun simctl list devices available >/tmp/available-simulators.txt || true
-          cat /tmp/available-simulators.txt
+          xcrun simctl list devices available >"$RUNNER_TEMP/available-simulators.txt"
+          cat "$RUNNER_TEMP/available-simulators.txt"
 
-          simulator_id="$(grep -m1 -E 'iPhone .*[0-9A-Fa-f-]{36}' /tmp/available-simulators.txt | grep -oE '[0-9A-Fa-f-]{36}' | head -1 || true)"
+          simulator_id="$(grep -m1 -E 'iPhone .*[0-9A-Fa-f-]{36}' "$RUNNER_TEMP/available-simulators.txt" | grep -oE '[0-9A-Fa-f-]{36}' | head -1 || true)"
 
           if [[ -z "$simulator_id" ]]; then
             echo "No bootable iPhone simulator is currently installed; downloading the default iOS runtime for the pinned Xcode."
             xcodebuild -downloadPlatform iOS
-            xcrun simctl list devices available >/tmp/available-simulators.txt
-            cat /tmp/available-simulators.txt
-            simulator_id="$(grep -m1 -E 'iPhone .*[0-9A-Fa-f-]{36}' /tmp/available-simulators.txt | grep -oE '[0-9A-Fa-f-]{36}' | head -1 || true)"
+            xcrun simctl list devices available >"$RUNNER_TEMP/available-simulators.txt"
+            cat "$RUNNER_TEMP/available-simulators.txt"
+            simulator_id="$(grep -m1 -E 'iPhone .*[0-9A-Fa-f-]{36}' "$RUNNER_TEMP/available-simulators.txt" | grep -oE '[0-9A-Fa-f-]{36}' | head -1 || true)"
           fi
 
           if [[ -z "$simulator_id" ]]; then
@@ -103,6 +101,8 @@ jobs:
           xcodebuild \
             -project CharacterProfiler.xcodeproj \
             -scheme CharacterProfiler \
+            -configuration Release \
+            ENABLE_TESTABILITY=YES \
             -sdk iphonesimulator \
             -destination "platform=iOS Simulator,id=${SIMULATOR_ID}" \
             -resultBundlePath "$RUNNER_TEMP/CharacterProfilerTests.xcresult" \
@@ -121,18 +121,6 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Build optimized Simulator Release
-        run: >-
-          xcodebuild
-          -project CharacterProfiler.xcodeproj
-          -scheme CharacterProfiler
-          -configuration Release
-          -sdk iphonesimulator
-          -destination "platform=iOS Simulator,id=${SIMULATOR_ID}"
-          CODE_SIGNING_ALLOWED=NO
-          SWIFT_STRICT_CONCURRENCY=complete
-          build
-
       - name: Build optimized iPhoneOS Release
         run: >-
           xcodebuild
@@ -146,36 +134,42 @@ jobs:
           SWIFT_STRICT_CONCURRENCY=complete
           build
 
-      - name: Package unsigned IPA
+      - name: Validate compiled icon and package the qualified device build
         shell: bash
         run: |
           set -euo pipefail
-
           app="$RUNNER_TEMP/CharacterProfilerDerivedData/Build/Products/Release-iphoneos/CharacterProfiler.app"
           test -d "$app"
-
-          version="$(xcodebuild -project CharacterProfiler.xcodeproj -scheme CharacterProfiler -configuration Release -showBuildSettings | awk '/MARKETING_VERSION =/ {print $3; exit}')"
-          test -n "$version"
-
+          python3 .github/scripts/validate_compiled_icon.py \
+            CharacterProfiler/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png \
+            "$app/AppIcon60x60@2x.png"
+          version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Info.plist")
+          build=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Info.plist")
+          expected_version=$(awk -F= '/^MARKETING_VERSION[[:space:]]*=/ {gsub(/[[:space:]]/,"",$2); print $2}' ProjectVersion.xcconfig)
+          expected_build=$(awk -F= '/^CURRENT_PROJECT_VERSION[[:space:]]*=/ {gsub(/[[:space:]]/,"",$2); print $2}' ProjectVersion.xcconfig)
+          test "$version" = "$expected_version"
+          test "$build" = "$expected_build"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ && "$build" =~ ^[1-9][0-9]*$ ]]
           package="$RUNNER_TEMP/CharacterProfiler-package"
           output="$GITHUB_WORKSPACE/artifacts"
           rm -rf "$package" "$output"
           mkdir -p "$package/Payload" "$output"
           ditto "$app" "$package/Payload/CharacterProfiler.app"
+          (cd "$package" && /usr/bin/zip -qry "$output/CharacterProfiler-$version-unsigned.ipa" Payload)
+          printf '%s\n' "$GITHUB_SHA" > "$output/SOURCE_COMMIT"
+          printf '%s\n' "$version" > "$output/RELEASE_VERSION"
+          printf '%s\n' "$build" > "$output/BUILD_NUMBER"
           (
-            cd "$package"
-            /usr/bin/zip -qry "$output/CharacterProfiler-${version}-unsigned.ipa" Payload
+            cd "$output"
+            shasum -a 256 "CharacterProfiler-$version-unsigned.ipa" > "CharacterProfiler-$version-unsigned.ipa.sha256"
+            shasum -a 256 *.ipa *.ipa.sha256 SOURCE_COMMIT RELEASE_VERSION BUILD_NUMBER > SHA256SUMS.txt
+            shasum -a 256 -c SHA256SUMS.txt
           )
-
-          test -s "$output/CharacterProfiler-${version}-unsigned.ipa"
-          shasum -a 256 "$output/CharacterProfiler-${version}-unsigned.ipa" | tee "$output/CharacterProfiler-${version}-unsigned.ipa.sha256"
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: CharacterProfiler-IPA-${{ github.sha }}
-          path: |
-            artifacts/*.ipa
-            artifacts/*.sha256
+          path: artifacts/*
           if-no-files-found: error
           retention-days: 30

@@ -22,7 +22,7 @@ Before landing a change on `main`, run the `CharacterProfiler` scheme tests and 
 
 The repository uses `main` as its working branch. Normal development is committed directly to `main`; the project does not depend on feature branches, release branches or pull requests. Keep each commit coherent, describe the user-visible effect and any persistence/archive compatibility impact, and record tests or physical-device limitations where relevant.
 
-A commit publishes only when its subject deliberately begins `Release <version>` and the complete `main` CI gate succeeds. Existing version tags and GitHub Releases are immutable.
+ProjectVersion.xcconfig owns release intent. A new unpublished version is published only after the complete main CI gate succeeds; commit wording does not select publication. Public tags and assets are immutable.
 
 Do not commit personal signing-team identifiers, credentials, generated build products or private story/character data.
 

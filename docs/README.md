@@ -4,6 +4,7 @@ This directory is the canonical documentation entry point for Character Manager.
 
 ## Canonical baseline
 
+- [Engineering philosophy](PHILOSOPHY.md) — governing engineering and documentation standard.
 - [Architecture](ARCHITECTURE.md) — persistent model, subsystem boundaries, archive contract and release architecture.
 - [Design](DESIGN.md) — first-principles product/design position and failure philosophy.
 - [Decisions](DECISIONS.md) — durable architectural choices and consequences.

@@ -76,7 +76,7 @@ Simulator tests, device compilation, source/compiled icon validation and IPA sea
 
 ## Documentation
 
-- [Philosophy](PHILOSOPHY.md) — governing engineering standard.
+- [Philosophy](docs/PHILOSOPHY.md) — governing engineering standard.
 - [Validation](docs/VALIDATION.md) — canonical automated and environment evidence.
 
 - `docs/PRODUCT_SPEC.md` — product intent and boundaries.

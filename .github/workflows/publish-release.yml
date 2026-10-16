@@ -78,7 +78,7 @@ jobs:
           fi
           if ! gh release view "$tag" --json isDraft,targetCommitish > "$RUNNER_TEMP/release-state"; then
             gh release create "$tag" --target "$EXPECTED_SHA" --draft \
-              --title "Character Manager $version" --generate-notes
+              --title "Character Profiler $version" --generate-notes
             gh release view "$tag" --json isDraft,targetCommitish > "$RUNNER_TEMP/release-state"
           fi
           test "$(jq -r .targetCommitish "$RUNNER_TEMP/release-state")" = "$EXPECTED_SHA"

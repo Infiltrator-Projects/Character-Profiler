@@ -2,7 +2,7 @@
 
 ## First-principles position
 
-Character Manager starts with the behaviour the project must own. Standards, platform frameworks and mature implementations are evidence and mechanisms, not specifications to copy blindly or semantic dependencies that may redefine the product later.
+Character Profiler starts with the behaviour the project must own. Standards, platform frameworks and mature implementations are evidence and mechanisms, not specifications to copy blindly or semantic dependencies that may redefine the product later.
 
 ## Goals
 

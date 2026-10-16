@@ -1,6 +1,6 @@
 # Decisions
 
-This file records durable architectural decisions for Character Manager.
+This file records durable architectural decisions for Character Profiler.
 
 ## ADR-001 — Author-entered data is canon
 

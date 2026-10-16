@@ -1,21 +1,21 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
-# Character Manager
+# Character Profiler
 
 **Project copyright:** © 1993-2026 Shannon Smith
 
 [![iOS Build](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml/badge.svg)](https://github.com/Infiltrator-Projects/Character-Profiler/actions/workflows/ios-build.yml)
 
-Character Manager is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
+Character Profiler is a native iPhone story-bible and character-development app for authors. It combines flexible character profiles, relationships and family, structured life history, genre-aware development questions, portable backup/restore and a focused appearance workspace.
 
 **Release identity:** [ProjectVersion.xcconfig](ProjectVersion.xcconfig)
 
-**Platform:** iOS 17 or later  
+**Platform:** iOS 17 or later
 **Licence:** GPL-3.0-or-later
 
 ## Engineering ethos
 
-Character Manager treats characters, relationships, history and story structure as durable user-owned data first.
+Character Profiler treats characters, relationships, history and story structure as durable user-owned data first.
 
 Platform frameworks are used where they provide a strong native contract, but the product's meaning is not outsourced to them. The application owns its archive format, reconstruction rules, validation limits and core workflows so stories remain portable and recoverable even as platform storage or optional visual tools evolve. AI and photogrammetry can extend the workspace; neither is required for the core application to remain useful.
 
@@ -29,7 +29,7 @@ The application is organised around three levels:
 - **Story workspace** — story summary, development metrics and cast-building workflow.
 - **Character workspace** — Profile, Character Guide, People & Relationships, History and Visual Studio.
 
-Character Manager remains local-first. SwiftData storage and Character Profiler archive format v1 retain separate compatibility contracts.
+Character Profiler remains local-first. SwiftData storage and Character Profiler archive format v1 retain separate compatibility contracts.
 
 Visual Studio has two deliberately separate paths: Image Playground produces authored 2D reference imagery, while RealityKit photogrammetry can reconstruct three or more photographs into a rotatable USDZ model on supported hardware. The 3D path is for appearance inspection, not scene generation, animation, rigging or filmmaking.
 
@@ -89,7 +89,7 @@ Simulator tests, device compilation, source/compiled icon validation and IPA sea
 
 ## Limits
 
-Character Manager is a character-development tool. It does not silently turn suggestions into canon and does not attempt to write the novel for the author. Visual Studio is an appearance workspace, not a general-purpose image/video production system.
+Character Profiler is a character-development tool. It does not silently turn suggestions into canon and does not attempt to write the novel for the author. Visual Studio is an appearance workspace, not a general-purpose image/video production system.
 
 If Image Playground or RealityKit reconstruction is unavailable, the local profile, Guide, relationship, history and backup workflows remain usable.
 
@@ -97,4 +97,4 @@ If Image Playground or RealityKit reconstruction is unavailable, the local profi
 
 Copyright © 1993-2026 Shannon Smith; © 2026 Olivia Jezewski.
 
-Character Manager is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.
+Character Profiler is free software licensed under the GNU General Public License version 3 or, at your option, any later version (`GPL-3.0-or-later`). The complete licence text is included in `LICENSE`.

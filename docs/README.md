@@ -1,6 +1,6 @@
 # Documentation
 
-This directory is the canonical documentation entry point for Character Manager.
+This directory is the canonical documentation entry point for Character Profiler.
 
 ## Canonical baseline
 

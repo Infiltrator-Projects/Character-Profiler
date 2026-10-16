@@ -23,7 +23,7 @@ enum PersistenceSafety {
 ///
 /// These are intentionally generous for normal author work while still placing a deterministic
 /// ceiling on allocations, collection traversal and embedded image payloads from hand-edited or
-/// hostile archives. The policy is native Swift: it follows Infiltratr Common's bounded/checked
+/// hostile archives. The policy is native Swift: it follows Libraries's bounded/checked
 /// design philosophy without introducing a C dependency into the iOS application.
 enum ArchiveResourcePolicy {
     static let maximumEncodedArchiveBytes = 128 * 1024 * 1024

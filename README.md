@@ -51,7 +51,7 @@ Open `CharacterProfiler.xcodeproj`, select the `CharacterProfiler` scheme and bu
 
 GitHub Actions uses pinned Xcode 16.4 on `macos-15`, prepares an iPhone simulator dynamically, runs the complete unit/UI suite on an optimized simulator build with strict Swift concurrency diagnostics, then compiles the unsigned optimized iPhoneOS build once.
 
-Hosted CI validates the compiled application icon against the canonical source image. Physical-device Image Playground output quality and the quality of a particular photogrammetry reconstruction still require real-device testing.
+Hosted CI uses native C++17 tooling to regenerate the canonical icon byte-for-byte and validate the compiled application icon without Python. Physical-device Image Playground output quality and the quality of a particular photogrammetry reconstruction still require real-device testing.
 
 ## Release assets
 

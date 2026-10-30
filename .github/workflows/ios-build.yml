@@ -45,13 +45,13 @@ jobs:
 
           test -s "$icon"
           test -s "$manifest"
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          manifest = json.loads(Path("CharacterProfiler/Assets.xcassets/AppIcon.appiconset/Contents.json").read_text())
-          images = manifest.get("images", [])
-          assert any(item.get("filename") == "AppIcon-1024.png" and item.get("size") == "1024x1024" for item in images)
-          PY
+          plutil -extract images json -o - "$manifest" |
+            jq -e 'any(.[]; .filename == "AppIcon-1024.png" and .size == "1024x1024")'
+          clang++ -std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror \
+            .github/scripts/icon_tools.cpp -lz -o "$RUNNER_TEMP/character-profiler-icon-tools"
+          "$RUNNER_TEMP/character-profiler-icon-tools" generate "$RUNNER_TEMP/character-profiler-generated-icon.png"
+          cmp "$icon" "$RUNNER_TEMP/character-profiler-generated-icon.png"
+          "$RUNNER_TEMP/character-profiler-icon-tools" validate "$icon" "$RUNNER_TEMP/character-profiler-generated-icon.png" 0
 
           width="$(sips -g pixelWidth "$icon" | awk '/pixelWidth/ {print $2}')"
           height="$(sips -g pixelHeight "$icon" | awk '/pixelHeight/ {print $2}')"
@@ -140,7 +140,7 @@ jobs:
           set -euo pipefail
           app="$RUNNER_TEMP/CharacterProfilerDerivedData/Build/Products/Release-iphoneos/CharacterProfiler.app"
           test -d "$app"
-          python3 .github/scripts/validate_compiled_icon.py \
+          "$RUNNER_TEMP/character-profiler-icon-tools" validate \
             CharacterProfiler/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png \
             "$app/AppIcon60x60@2x.png"
           version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Info.plist")

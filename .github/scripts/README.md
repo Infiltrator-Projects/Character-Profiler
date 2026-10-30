@@ -1,5 +1,10 @@
 # App icon tooling
 
-`generate_app_icon.py` deterministically creates the canonical 1024×1024 RGB application icon using only the Python standard library.
+`icon_tools.cpp` provides two native C++17 commands without requiring Python.
 
-`validate_compiled_icon.py` decodes both ordinary PNG and Apple's compiled CgBI PNG format and compares the iPhoneOS `AppIcon60x60@2x.png` output against the source icon. The dedicated App Icon Integrity workflow uses this check to prevent a successful Xcode build from shipping a visually corrupted icon.
+Build on Linux or macOS with `c++ -std=c++17 -O2 .github/scripts/icon_tools.cpp -lz -o icon-tools`.
+
+- `icon-tools generate AppIcon-1024.png` reconstructs the canonical 1024×1024 RGB source icon. The exact canonical PNG Git object is `9ab34644b8b0d5f951a3e47651abb2687803f05c`.
+- `icon-tools validate source.png compiled.png [max-mean-error]` decodes ordinary PNG and Apple's CgBI PNG format, sampling RGB differences and limiting unexpected white pixels.
+
+The iOS Build workflow regenerates the original icon, confirms identical PNG bytes with `cmp`, and validates Apple's compiled icon before sealing the unsigned IPA. The committed source icon and the iOS app itself are unchanged.
